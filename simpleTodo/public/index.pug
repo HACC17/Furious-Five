@@ -1,0 +1,19 @@
+html
+head
+	link(rel="stylesheet" href= "styles.css")
+body
+	#container
+		#addTodo
+			input#newTodo(type= "text")
+			input#todoDate(type= "date")
+			button#enterTodo Add
+		#todoList
+			.todoItem
+				.importance
+				input.todoCheck(type= "checkbox")
+				.todoContent Test stuff
+				.dueDate Due on 12/22/2
+				button.remove X
+
+	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+	script(src="script.js")
