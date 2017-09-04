@@ -24,6 +24,10 @@ function applyTodoFunctions() {
 	$(document).on("click", ".remove", function() {
 		$(this).parents(":eq(0)").remove();
 	});
+
+	$(document).on("dblclick", ".todoContent", function() {
+		$(this).prop("contentEditable", true);
+	});
 }
 
 // Adding new todo items based on date and content provided
