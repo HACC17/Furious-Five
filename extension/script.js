@@ -1,28 +1,23 @@
 var tableData = $(".studentNoPaddingBorder2"),
 	timedata = $(".attendTypeColumnData2"),
-	i = 0,
-	k = 0,
-	m = 0,
+	i,
+	k,
 	tablelength = tableData.length,
 	timelength = timedata.length,
 	array = [[]],
 	masterData = {
-		schedule : {
-			"A-Day": [],
-			"B-Day": [],
-			"C-Day": [],
-			"D-Day": [],
-			"E-Day": [],
-			"F-Day": []
+		schedule : { "A-Day": [], "B-Day": [], "C-Day": [],
+					 "D-Day": [], "E-Day": [], "F-Day": []
 		},
 		key: {}
 	},
-	currIndex = 0;
+	currIndex = 0,
+	letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"];
 
-// Pull class data from table
-for (i; i < tablelength; i++) {
+// Extract class data from the left-side of the table
+for (i = 0; i < tablelength; i++) {
 	if ((i + 1) % 5 === 0) {
-		array.push([])
+		array.push([]);
 		array[currIndex].push($(tableData[i]).html());
 		currIndex = (i + 1) / 5;
 	} else {
@@ -30,13 +25,12 @@ for (i; i < tablelength; i++) {
 	}
 }
 
-// Pull class time from table
+// Extract class time from right-side of the table
 currIndex = 0;
-i = 0 
-for (i; i < timelength; i++) {
+for (i = 0; i < timelength; i++) {
 	if ((i + 1) % 7 === 0) {
 		array[currIndex].push($(timedata[i]).html());
-		currIndex = (i + 1) / 7
+		currIndex = (i + 1) / 7;
 	} else {
 		array[currIndex].push($(timedata[i]).html());
 	}
@@ -45,57 +39,42 @@ for (i; i < timelength; i++) {
 console.log(array);
 
 // Process raw data into JSON data to be used in schdule maker
-for (k; k < array.length; k++) {
-	if (array[k].length > 0) {
-		var letterDay;
-		var l = 5;
-		masterData.key[k] = {};
-		masterData.key[k].className = array[k][0];
-		masterData.key[k].classCode = array[k][1];
-		masterData.key[k].teacher = array[k][2].match("\<\/a\>\&nbsp;(.+)")[1];
-		if (array[k][3] == "&nbsp;") {
-			masterData.key[k].classroom = "";
+for (i = 0; i < array.length; i++) {
+	// Check if array is empty
+	if (array[i].length > 0) {
+		// Adding the class info to the key
+		masterData.key[i] = {
+			className: array[i][0],
+			classCode: array[i][1],
+			teacher: array[i][2].match("\<\/a\>\&nbsp;(.+)")[1],
+			semester: array[i][4]
+		};
+		// Check if classroom is just empty/not included
+		if (array[i][3] === "&nbsp;") {
+			masterData.key[i].classroom = "";
 		} else {
-			masterData.key[k].classroom = array[k][3];
+			masterData.key[i].classroom = array[i][3];
 		}
-		masterData.key[k].semester = array[k][4];
-		for (l; l < array[k].length - 1; l++) {
-			switch (l) {
-				case 5:
-					letterDay = "A-Day";
-					break;
-				case 6:
-					letterDay = "B-Day";
-					break;
-				case 7:
-					letterDay = "C-Day";
-					break;
-				case 8:
-					letterDay = "D-Day";
-					break;
-				case 9:
-					letterDay = "E-Day";
-					break;
-				case 10:
-					letterDay = "F-Day";
-					break;
-			}
-			if (array[k][l] == "&nbsp;") {
+		//Loop through each row to distribute class by letter day
+		for (k = 5; k < array[i].length - 1; l++) {
+			
+			if (array[i][k] === "&nbsp;") {
 				// masterData.schedule[letterDay].push(".");
 			} else {
-				var classData = array[k][l].split("-");
+				// Class times are displayed as "start-end", e.g 12-14
+				var classData = array[i][k].split("-");
+				// Check if the class doesn't have a range
 				if (classData.length < 2) {
 					classData[0] = parseInt(classData[0]);
 				} else {
 					classData[0] = parseInt(classData[0]);
 					classData[1] = parseInt(classData[1]);
 				}
-				classData.unshift(k);
-				masterData.schedule[letterDay].push(classData);
+				// Put the key data in the front
+				classData.unshift(i);
+				masterData.schedule[letterDays[k - 5]].push(classData);
 			}
 		}	
-	} else {
-		console.log("empty array");
 	}
 }
 
