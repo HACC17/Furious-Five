@@ -2,6 +2,7 @@ var tableData = $(".studentNoPaddingBorder2"),
 	timedata = $(".attendTypeColumnData2"),
 	i,
 	k,
+	j,
 	tablelength = tableData.length,
 	timelength = timedata.length,
 	array = [[]],
@@ -56,26 +57,33 @@ for (i = 0; i < array.length; i++) {
 			masterData.key[i].classroom = array[i][3];
 		}
 		//Loop through each row to distribute class by letter day
-		for (k = 5; k < array[i].length - 1; l++) {
+		for (k = 5; k < array[i].length - 1; k++) {
 			
 			if (array[i][k] === "&nbsp;") {
 				// masterData.schedule[letterDay].push(".");
 			} else {
 				// Class times are displayed as "start-end", e.g 12-14
 				var classData = array[i][k].split("-");
+				var dataObj = {};
 				// Check if the class doesn't have a range
+
 				if (classData.length < 2) {
-					classData[0] = parseInt(classData[0]);
+					dataObj.startTime = parseInt(classData[0], 10);
 				} else {
-					classData[0] = parseInt(classData[0]);
-					classData[1] = parseInt(classData[1]);
+					dataObj.startTime = parseInt(classData[0], 10);
+					dataObj.endTime = parseInt(classData[1], 10);
 				}
 				// Put the key data in the front
-				classData.unshift(i);
-				masterData.schedule[letterDays[k - 5]].push(classData);
+				dataObj.classKey = i;
+				masterData.schedule[letterDays[k - 5]].push(dataObj);
 			}
 		}	
 	}
+}
+
+// Loop through each letter day and sort class schedule
+for (var i = 0; i < 6; i++) {
+	masterData.schedule[letterDays[i]] = _.sortBy(masterData.schedule[letterDays[i]], "startTime");
 }
 
 console.log(masterData);
