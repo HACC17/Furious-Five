@@ -64,10 +64,11 @@ for (i = 0; i < array.length; i++) {
 				// Class times are displayed as "start-end", e.g 12-14
 				var classData = array[i][k].split("-");
 				var dataObj = {};
-				// Check if the class doesn't have a range
 
+				// Check if the class doesn't have a range
 				if (classData.length < 2) {
 					dataObj.startTime = parseInt(classData[0], 10);
+					dataObj.endTime = parseInt(classData[0], 10);
 				} else {
 					dataObj.startTime = parseInt(classData[0], 10);
 					dataObj.endTime = parseInt(classData[1], 10);
@@ -80,6 +81,8 @@ for (i = 0; i < array.length; i++) {
 	}
 }
 
+console.log(masterData);
+
 // Loop through each letter day and sort class schedule
 for (var i = 0; i < 6; i++) {
 	masterData.schedule[letterDays[i]] = _.sortBy(masterData.schedule[letterDays[i]], "startTime");
@@ -90,15 +93,18 @@ for (var i = 0; i < 6; i++) {
 		} else {
 			masterData.schedule[letterDays[i]][k].classTime = 15;
 		}
-		
-		if ((k === 0) && (masterData.schedule[letterDays[i]][0].startTime > 1)) {
-			var breakObj = {
-				classKey: ".",
-				startTime: 1,
-				endTime: masterData.schedule[letterDays[i]][k].startTime,
-				classTime: (masterData.schedule[letterDays[i]][k].startTime - 1) * 15
-			};
-			masterData.schedule[letterDays[i]].splice(0, 0, breakObj);
+		if (k !== 0) {
+			if (masterData.schedule[letterDays[i]][k - 1].endTime > masterData.schedule[letterDays[i]][k].startTime) {
+				var conflictObj = {
+					classKey: [masterData.schedule[letterDays[i]][k - 1].classKey, masterData.schedule[letterDays[i]][k].classKey],
+					conflictStart: masterData.schedule[letterDays[i]][k].startTime,
+					conflictEnd: masterData.schedule[letterDays[i]][k - 1].endTime,
+					classTime: (masterData.schedule[letterDays[i]][k - 1].endTime - masterData.schedule[letterDays[i]][k].startTime) * 15
+				}
+				masterData.schedule[letterDays[i]][k - 1].endTime = conflictObj.conflictStart;
+				masterData.schedule[letterDays[i]][k].startTime = conflictObj.conflictEnd;
+				masterData.schedule[letterDays[i]].splice(k, 0, conflictObj);
+			}
 		}
 	}
 }
