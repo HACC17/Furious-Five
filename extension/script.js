@@ -100,10 +100,16 @@ for (var i = 0; i < 6; i++) {
 				currentClass.classTime = (currentClass.endTime - currentClass.startTime + 1) * 15;
 
 				masterData.schedule[letterDays[i]].splice(k, 0, conflictObj);
-			}
 		}
 	}
 }
 
-console.log(masterData);
+var dataStr = JSON.stringify(masterData),
+	dataUri = "data:application/json;charset=utf-8,"+ encodeURIComponent(dataStr),
+	exportFileDefaultName = "data.json",
+	linkElement = document.createElement("a");
+	
+linkElement.setAttribute("href", dataUri);
+linkElement.setAttribute("download", exportFileDefaultName);
+linkElement.click();
 
