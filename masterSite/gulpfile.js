@@ -9,7 +9,7 @@ var gulp = require("gulp"),
 gulp.task("default", ["css", "js", "watch", "serve"]);
 
 gulp.task("css", function () {
-	return gulp.src(["./src/sass/main.scss"])
+	return gulp.src(["./src/sass/*.scss"])
 	.pipe(plugins.sourcemaps.init())
 	.pipe(plugins.sass().on("error", plugins.sass.logError))
 	.pipe(plugins.cssmin())
@@ -21,8 +21,7 @@ gulp.task("css", function () {
 
 gulp.task("js", function () {
 	return gulp.src([
-		"./src/js/magic.js",
-		"src/js/admin.js"
+		"./src/js/*.js",
 	])
 	.pipe(plugins.sourcemaps.init())
 	.pipe(plugins.babel({
