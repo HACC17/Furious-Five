@@ -10,12 +10,13 @@
         },
 	"content_scripts": [
     	{
-	      "matches": ["https://mybackpack.punahou.edu/*"],
-	      "js": ["jquery-3.2.1.min.js", "lodash.core.min.js", "script.js"]
+	      "matches": ["https://mybackpack.punahou.edu/SeniorApps/studentParent/schedule.faces"],
+	      "js": ["jquery-3.2.1.min.js", "lodash.core.min.js", "script.js", "background.js"]
 	    }
 	],
 	"permissions": [
 	  		"tabs",
-	 		"https://mybackpack.punahou.edu/"
+	 		"https://mybackpack.punahou.edu/SeniorApps/studentParent/schedule.faces",
+	 		"activeTab"
 	]
 }
