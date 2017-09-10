@@ -80,3 +80,6 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 .DS_Store
+
+# 9/8/17
+dist
