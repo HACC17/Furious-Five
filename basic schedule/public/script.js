@@ -1,76 +1,146 @@
-// Example jsonData
-
-var j = {
-	schedule: {
-		"A-day": [["A", 120], ["B", 60], ["I", 60], ["A", 120], 
-				  ["C", 60], ["A", 120], ["C", 60], ["D", 60]],
-		"B-day": [["E", 90], ["A", 30], ["B", 60], ["F", 60],
-				  ["G", 30], ["G", "D", 30], ["D", 30], ["H", 60], ["A", 60]],
-		"C-day": [["A", 120], ["B", 60], ["I", 60], ["A", 120], ["H", 60], ["D", 60]],
-		"D-day": [["E", 90], ["A", 30], ["B", 60], ["J", 60],
-				 ["G", 90], ["A", 30], ["H", 60], ["A", 60]],
-		"E-day": [["A", 180], ["I", 60], ["A", 120], ["H", 60], ["D", 60]],
-		"F-day": [["E", 90], ["A", 30], ["B", 60], ["K", 60],
-				 ["G", 90], ["A", 90], ["I", 60]]
+// Example schedules
+var sched1 = {
+	"schedule": {
+		"A-Day": [{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":7}],
+		"B-Day":[{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":5,"endTime":8,"classTime":60,"classKey":8},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":1},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":4},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":5},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}],
+		"C-Day":[{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}],
+		"D-Day":[{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":5,"endTime":8,"classTime":60,"classKey":8},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":1},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":3},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":5},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":7},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}],
+		"E-Day":[{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":5,"endTime":8,"classTime":60,"classKey":8},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":10},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":7},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}],
+		"F-Day":[{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
+			{"startTime":5,"endTime":8,"classTime":60,"classKey":8},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":1},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":2},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":5},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":7}]
 	},
-	key: {
-		A: {
-			className: "Break",
-			teacher: "none",
-			location: "none"
-		},
-		B: {
-			className: "Alg 2/Trig H",
-			teacher: "Smith",
-			location: "B202"
-		},
-		C: {
-			className: "Violin",
-			teacher: "none",
-			location: "Montague"
-		},
-		D: {
-			className: "Orchestra",
-			teacher: "Carlson",
-			location: "Montague"
-		},
-		E: {
-			className: "AP Chem",
-			teacher: "Pang",
-			location: "M206"
-		},
-		F: {
-			className: "Advisory/Chapel",
-			teacher: "Jenkins",
-			location: "Chapel"
-		},
-		G: {
-			className: "Engineering",
-			teacher: "Dengler",
-			location: "Gates LC"
-		},
-		H: {
-			className: "Chinese 3H",
-			teacher: "Char",
-			location: "CH-3"
-		},
-		I: {
-			className: "English 2AB",
-			teacher: "Ball",
-			location: "S201",
-			altLocation: {
-				day: "F-day"
-			}
-		},
-		J: {
-			className: "Advisory/Assembly",
-			teacher: "Jenkins",
-			location: "Dillingham"
-		},
-		K: {
-			className: "Long Advisory",
-			teacher: "Jenkins",
-			location: "M206"
-		}
+	"key":{
+		"0": {"className":"ALGE II/TRIG H ALGEBRA II/TRIG (H)","classCode":"2331-102","teacher":"Kelly C. Smith","semester":"S1","classroom":"B202"},
+		"1": {"className":"AP-10","classCode":"9521-120","teacher":"Dr. Ka'eokulani D. Vasconcellos","semester":"S1","classroom":"G107"},
+		"2": {"className":"AP-10 EXTENDED","classCode":"9561-101","teacher":"Marguerite K. Ashford-Hirano","semester":"S1","classroom":""},
+		"3": {"className":"ASSEM 10","classCode":"9101-101","teacher":"Padraic M. C. Tune","semester":"S1","classroom":"DILL"},
+		"4": {"className":"CHAPEL 10","classCode":"9061-101","teacher":"Chaplain George W. Scott","semester":"S1","classroom":"CHAP"},
+		"5": {"className":"CHEM H CHEMISTRY (H)","classCode":"3091-106","teacher":"Christopher H. W. Chock","semester":"S1","classroom":"M205"},
+		"6": {"className":"CLASS DEANS' EMAIL","classCode":"9610-102","teacher":"Padraic M. C. Tune","semester":"S1","classroom":""},
+		"7": {"className":"ECONOMICS ECONOMICS","classCode":"4371-101","teacher":"Michael E. Georgi","semester":"S1","classroom":"G205"},
+		"8": {"className":"ENG 2 AB ENGLISH","classCode":"0081-103","teacher":"Nora O. Keller","semester":"S1","classroom":"P101"},
+		"9": {"className":"MND CHIN III H MAND CHINESE III (H)","classCode":"1761-102","teacher":"Linette L. Char","semester":"S1","classroom":"CH-3"},
+		"10": {"className":"SENATE","classCode":"9241-101","teacher":"Scott K. Herzer","semester":"S1","classroom":"A206"},
+		"11": {"className":"SYMPH ORCH SYMPHONY ORCHESTRA","classCode":"5651-101","teacher":"Dr. Sven J. Carlson","semester":"S1","classroom":"ORCH"}
 	}
 }
+
+var sched2 = { 
+	"schedule": {
+		"A-Day":[{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"B-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":5},
+			{"startTime":17,"endTime":20,"classTime":60,"classKey":10},
+			{"classKey":[10,8],"conflictStart":21,"conflictEnd":22,"classTime":30},
+			{"startTime":23,"endTime":24,"classTime":30,"classKey":8},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11}],
+		"C-Day":[{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"D-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":4},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":10},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11}],
+		"E-Day":[{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"F-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":3},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":10},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}]
+	},
+	"key": {
+		"0": {"className":"ALGE II/TRIG H ALGEBRA II/TRIG (H)","classCode":"2331-102","teacher":"Kelly C. Smith","semester":"S1","classroom":"B202"},
+		"1": {"className":"AP CHEM AP CHEMISTRY","classCode":"3171-106","teacher":"Cullen K. T. Pang","semester":"S1","classroom":"M206"},
+		"2": {"className":"AP-10","classCode":"9521-108","teacher":"Adam P. Jenkins","semester":"S1","classroom":"M206"},
+		"3": {"className":"AP-10 EXTENDED","classCode":"9561-101","teacher":"Marguerite K. Ashford-Hirano","semester":"S1","classroom":""},
+		"4": {"className":"ASSEM 10","classCode":"9101-101","teacher":"Padraic M. C. Tune","semester":"S1","classroom":"DILL"},
+		"5": {"className":"CHAPEL 10","classCode":"9061-101","teacher":"Chaplain George W. Scott","semester":"S1","classroom":"CHAP"},
+		"6": {"className":"CLASS DEANS' EMAIL","classCode":"9610-102","teacher":"Padraic M. C. Tune","semester":"S1","classroom":""},
+		"7": {"className":"CONC ORCH II REH CONCERT ORCHESTRA II","classCode":"5601-101","teacher":"Dr. Sven J. Carlson","semester":"S1","classroom":"ORCH"},
+		"8": {"className":"CONC ORCH II VLN/VLA CONCERT ORCHESTRA II","classCode":"5611-101","teacher":"Mr. Craig J. S. Young","semester":"S1","classroom":"ORCH"},
+		"9": {"className":"ENG 2 AB ENGLISH","classCode":"0081-119","teacher":"Dr David Michael Ball","semester":"S1","classroom":"S201"},
+		"10": {"className":"ENGINEERING PROJ I &amp; II ENGINEERING PROJ I &amp; II","classCode":"3671-101","teacher":"Justin Y. Lai","semester":"S1","classroom":"G-CLC"},
+		"11": {"className":"MND CHIN III H MAND CHINESE III (H)","classCode":"1761-101","teacher":"Linette L. Char","semester":"S1","classroom":"CH-3"}
+	}
+}
+
+var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"];
+var similar = []; // Array containing the shared breaks of the two schedules
+var sharedClass = [] // Array containing same classes
+
+
+for (var i = 0; i < 6; i++) {
+	// schedData is the schedule object of the classes in each letter day
+	var schedData1 = sched1.schedule[letterDays[i]], 
+		schedData2 = sched2.schedule[letterDays[i]],
+		temp1 = [], // temp arrays to store the times of the classes
+		temp2 = [],
+		startTimeLength = _.map(schedData1, "startTime").length;
+
+	for (var k = 0; k < startTimeLength; k++) {
+		// Get the range of the start time to endtime of all classes and add to temp array
+		var range = _.range(_.map(schedData1, "startTime")[k], _.map(schedData1, "endTime")[k] + 1, 1); 
+		var range2 = _.range(_.map(schedData2, "startTime")[k], _.map(schedData2, "endTime")[k] + 1, 1);
+	
+		temp1 =  _.concat(temp1, range);
+		temp2 = _.concat(temp2, range2);
+	}
+
+	// Find the similarities by finding where the breaks align
+	similar.push(_.intersectionWith(_.differenceWith(_.range(1, 33), temp1), _.differenceWith(_.range(1, 33), temp2), _.isEqual));
+}
+
+
+var key1 = _.map(sched1.key, "classCode");
+	key2 = _.map(sched2.key, "classCode"),
+	sharedClassCodes = _.intersectionWith(key1, key2);
+
+console.log(sharedClassCodes);
+
+for (var i = 0; i < sharedClassCodes.length; i++) {
+	var sharedClassObj = _.filter(sched1.key, {"classCode": sharedClassCodes[i]});
+	sharedClass.push(sharedClassObj[0]);
+}
+	
+console.log(sharedClass);
+	
+
+
+
+
