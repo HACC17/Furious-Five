@@ -1,4 +1,6 @@
 /* eslint quotes: ["error", "double"] */
 /* global $ */
-$(".grid-stack").gridstack({width: 6})
+$(function () {
+  $(".grid-stack").gridstack({width: 6, float: true})
+})
 console.log("hello")
