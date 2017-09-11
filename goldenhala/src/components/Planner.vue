@@ -1,15 +1,26 @@
 <template lang="pug">
   div#plannerApp
     p {{ msg }}
+    draggable(v-model='myArray', :options="{group:'people'}", @start='drag=true', @end='drag=false')
+      div(v-for='element in myArray') {{ element.name }}
 </template>
 
 <script>
 /* eslint quotes: ["error", "double"] */
+import draggable from "vuedraggable"
 export default {
   name: "Planner",
+  components: {
+    draggable
+  },
   data () {
     return {
-      msg: "i like cats"
+      msg: "i like cats",
+      myArray: [
+        {name: "John"},
+        {name: "Joao"},
+        {name: "Jean"}
+      ]
     }
   }
 }
