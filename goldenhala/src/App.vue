@@ -14,9 +14,9 @@
             .navbar-item(v-for="item in plugins")
               router-link(:to="item.route") {{ item.name }}
           .navbar-end
-              .navbar-item: i.fa.fa-question-circle
-              .navbar-item: i.fa.fa-cog
-              .navbar-item: i.fa.fa-sign-out
+              .navbar-item: router-link(to="help"): i.fa.fa-question-circle
+              .navbar-item: router-link(to="settings"): i.fa.fa-cog
+              .navbar-item: router-link(to="logout"): i.fa.fa-sign-out
     section.section
       router-view
 </template>
