@@ -1,13 +1,14 @@
 <template lang="pug">
-  p Hssdf
+  div
+    p {{ msg }}
 </template>
 
 <script>
 export default {
-  name: 'hello',
+  name: 'Common-Break-Finder',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'i ma bob'
     }
   }
 }
@@ -20,16 +21,16 @@ h1, h2 {
 }
 
 ul {
-  list-style-type: none;
-  padding: 0;
+ list-style-type: none;
+    padding: 0;
 }
 
 li {
-  display: inline-block;
-  margin: 0 10px;
+    display: inline-block;
+   margin: 0 10px;
 }
 
 a {
-  color: #42b983;
+    color: #42b983;
 }
 </style>

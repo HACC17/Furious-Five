@@ -81,5 +81,21 @@ jspm_packages
 .node_repl_history
 .DS_Store
 
-# 9/8/17
-dist
+# From Vue Project
+.DS_Store
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Floobits
+.floo
+.flooignore

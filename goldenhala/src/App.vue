@@ -1,13 +1,38 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
-  </div>
+<template lang="pug">
+  div#app
+    #nav.nav.has-shadow: .container
+      .container.navbar
+        .navbar-brand
+          router-link(to="/")
+            img(src="./assets/logo.png", style="height: 100%")
+          .navbar-burger
+            span
+            span
+            span
+        .navbar-menu
+          .navbar-start
+            .navbar-item(v-for="item in plugins")
+              router-link(:to="item.route") {{ item.name }}
+          .navbar-end
+              .navbar-item: i.fa.fa-question-circle
+              .navbar-item: i.fa.fa-cog
+              .navbar-item: i.fa.fa-sign-out
+    section.section
+      router-view
 </template>
 
 <script>
+/* eslint quotes: ["error", "double"] */
 export default {
-  name: 'app'
+  name: "App",
+  data () {
+    return {
+      plugins: [
+        {name: "Common Break Finder", route: "commonbreak"},
+        {name: "Teacher Rater", route: "teacherRater"}
+      ]
+    }
+  }
 }
 </script>
 
