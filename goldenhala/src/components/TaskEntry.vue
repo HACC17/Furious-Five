@@ -9,7 +9,7 @@
         span.icon.is-small.is-left
           i.fa.fa-globe
       .control.is-expanded
-        input.input.is-full-width(type="text", placeholder="Hi")
+        input.input.is-full-width(type="text", placeholder="Hi", v-model="textEntry")
       .control
         a.button.is-primary(@click="addNewTask") Go!
     .field
@@ -25,12 +25,12 @@ export default {
   name: "hello",
   data () {
     return {
-      msg: "Welcome to Your Vue.js App"
+      textEntry: ""
     }
   },
   methods: {
     addNewTask () {
-      Bus.$emit("addNewTask", "yof");
+      Bus.$emit("addNewTask", {origEntry: this.textEntry});
     }
   }
 }

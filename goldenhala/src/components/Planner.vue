@@ -15,9 +15,15 @@
           :key="task.id",
           :id="'task-' + task.id"
         )
-          .card: .card-content
-            span {{ task.id }}
-            span {{ task.name }}
+          transition(
+            :appear="animations",
+            name="addTransition",
+            enter-active-class="animated tada",
+            leave-active-class="animated bounceOutRight"
+          )
+            .card: .card-content
+              span {{ task.id }}
+              span {{ task.name }}
     //- draggable.list-group(element="ul", v-model="list", :options="dragOptions", :move="onMove", @start="isDragging=true", @end="isDragging=false")
     //-   transition-group(type="transition", :name="'flip-list'")
     //-     li.list-group-item(v-for="element in list", :key="element.order")
@@ -36,7 +42,7 @@
 <script>
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
-// import _ from "lodash"
+import _ from "lodash"
 import draggable from "vuedraggable"
 import { Bus } from "./Bus.js"
 
@@ -53,8 +59,7 @@ export default {
         {name: "Joao", id: "243434234"},
         {name: "Jean", id: "23432423"}
       ],
-      // list: message.map( (name,index) => {return {name, order: index+1, fixed: false}; }),
-      // list2:[],
+      animations: false,
       editable: true,
       isDragging: false,
       delayedDragging:false
@@ -74,9 +79,6 @@ export default {
     }
   },
   methods: {
-    orderList () {
-      this.list = this.list.sort((one,two) =>{return one.order-two.order; })
-    },
     onMove ({relatedContext, draggedContext}) {
       console.log(relatedContext, draggedContext)
       const relatedElement = relatedContext.element;
@@ -95,9 +97,13 @@ export default {
       })
     }
   },
-  created: () => {
-    Bus.$on("addNewTask", (msg) => {
-      alert(msg);
+  mounted: function () {
+    // Enable Animations
+    this.animations = true;
+
+    // Bus Event Listeners
+    Bus.$on("addNewTask", (taskObj) => {
+      this.tasks.push({name: taskObj.origEntry, id: _.random(0, 1000)});
     });
   }
 }
