@@ -1,41 +1,31 @@
 <template lang="pug">
-  #plannerApp
-    p {{ msg }}
-    draggable(
-      element="ul",
-      v-model="tasks",
-      :options="dragOptions",
-      :move="onMove",
-      @start="isDragging=true",
-      @end="isDragging=false"
-    )
-      transition-group(type="transition", name="swap")
-        li.task-item(
-          v-for="(task, index) in tasks",
-          :key="task.id",
-          :id="'task-' + task.id"
+- var debug = false
+#plannerApp
+  draggable(
+    element="ul",
+    v-model="tasks",
+    :options="dragOptions",
+    :move="onMove",
+    @start="isDragging=true",
+    @end="isDragging=false"
+  )
+    transition-group(type="transition", name="swap")
+      li.task-item(
+        v-for="(task, index) in tasks",
+        :key="task.id",
+        :id="'task-' + task.id"
+      )
+        transition(
+          :appear="animations",
+          name="addTransition",
+          enter-active-class="animated tada",
+          leave-active-class="animated bounceOutRight"
         )
-          transition(
-            :appear="animations",
-            name="addTransition",
-            enter-active-class="animated tada",
-            leave-active-class="animated bounceOutRight"
-          )
-            .card: .card-content
-              span {{ task.id }}
-              span {{ task.name }}
-    //- draggable.list-group(element="ul", v-model="list", :options="dragOptions", :move="onMove", @start="isDragging=true", @end="isDragging=false")
-    //-   transition-group(type="transition", :name="'flip-list'")
-    //-     li.list-group-item(v-for="element in list", :key="element.order")
-    //-       i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
-    //-       | {{element.name}}
-    //-       span.badge {{element.order}}
-    //- draggable(element="span", v-model="list2", :options="dragOptions", :move="onMove")
-    //-   transition-group.list-group(name="no", tag="ul")
-    //-     li.list-group-item(v-for="element in list2", :key="element.order")
-    //-       i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
-    //-       |               {{element.name}}
-    //-       span.badge {{element.order}}
+          .card: .card-content
+            if debug
+              span {{ task.id + " " }}
+            span {{ task.name }}
+  if debug
     pre {{ tasksString }}
 </template>
 
@@ -53,11 +43,11 @@ export default {
   },
   data () {
     return {
-      msg: "i like cats",
+      nextIDIncrement: 1,
       tasks: [
-        {name: "John", id: "123132"},
-        {name: "Joao", id: "243434234"},
-        {name: "Jean", id: "23432423"}
+        {name: "John", id: "13423423432423"},
+        {name: "Joao", id: "2343242343243242"},
+        {name: "Jean", id: "242342432423423"}
       ],
       animations: false,
       editable: true,
@@ -103,7 +93,8 @@ export default {
 
     // Bus Event Listeners
     Bus.$on("addNewTask", (taskObj) => {
-      this.tasks.push({name: taskObj.origEntry, id: _.random(0, 1000)});
+      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement});
+      this.nextIDIncrement++;
     });
   }
 }
@@ -125,19 +116,6 @@ export default {
 
 .ghost > .card {
   opacity: .5;
-  background: blue;
+  background: red;
 }
-
-/*.list-group {
-  min-height: 20px;
-}
-
-.list-group-item {
-  cursor: move;
-}
-
-.list-group-item i{
-  cursor: pointer;
-}*/
-
 </style>
