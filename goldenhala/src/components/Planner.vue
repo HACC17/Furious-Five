@@ -21,15 +21,28 @@
           enter-active-class="animated tada",
           leave-active-class="animated bounceOutRight"
         )
-          .card: .card-content: .level
-            .level-left
-              .level-item.dragHandle
-                span.icon: i.fa.fa-bars
-              .level-item.taskName(@dblclick="")
-                if debug
-                  span {{ task.id + " " }}
-                //- https://jsfiddle.net/jpeter06/ppyeo1tg/
-                span {{ task.name }}
+          .card(
+            :class="{noSelection: task.editing}",
+            @dblclick.stop="onEdit(task)"
+          )
+            .card-content: .level
+              .level-left
+                .level-item.dragHandle
+                  span.icon: i.fa.fa-bars
+                .level-item.taskNameWrapper
+                  if debug
+                    span {{ task.id + " " }}
+                  //- https://jsfiddle.net/jpeter06/ppyeo1tg/
+                  template(v-if="!task.editing")
+                    span {{ task.name }}
+                  template(v-else)
+                    input.input.is-small(
+                      type="text",
+                      v-model="task.name",
+                      @blur="task.editing = false;"
+                      @keyup.enter="task.editing = false;"
+                    )
+                    //- TODO make input non-small but same size as text - or change to styled textarea?
   if debug
     pre {{ tasksString }}
 </template>
@@ -51,12 +64,11 @@ export default {
     return {
       nextIDIncrement: 1,
       tasks: [
-        {name: "John", id: "13423423432423"},
-        {name: "Joao", id: "2343242343243242"},
-        {name: "Jean", id: "242342432423423"}
+        {name: "John", id: "13423423432423", editing: false},
+        {name: "Joao", id: "2343242343243242", editing: false},
+        {name: "Jean", id: "242342432423423", editing: false}
       ],
       animations: false,
-      currentlyEditing: true,
       isDragging: false,
       delayedDragging:false
     }
@@ -66,7 +78,7 @@ export default {
       return  {
         animation: 0,
         group: "tasks",
-        disabled: !this.editing,
+        // disabled: this.editing,
         handle: ".dragHandle",
         ghostClass: "ghost"
       };
@@ -81,16 +93,20 @@ export default {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
       return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+    },
+    onEdit (task) {
+      task.editing = !task.editing;
+      // TODO automatically focus on input element
     }
   },
   watch: {
     isDragging (newValue) {
-      if (newValue){
-        this.delayedDragging= true
-        return
+      if (newValue) {
+        this.delayedDragging = true;
+        return;
       }
-      this.$nextTick( () =>{
-           this.delayedDragging =false
+      this.$nextTick( () => {
+        this.delayedDragging = false;
       })
     }
   },
@@ -103,6 +119,7 @@ export default {
       this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement});
       this.nextIDIncrement++;
     });
+    console.log(this.$refs)
   }
 }
 </script>
@@ -115,6 +132,14 @@ export default {
 
 .dragHandle {
   cursor: move;
+}
+
+.noSelection {
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none;
 }
 
 .swap-move {
