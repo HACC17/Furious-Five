@@ -5,6 +5,7 @@
     .control.has-icons-left
       span.select
         select
+          option(selected)
           each val in [1, 2, 3]
             option= val
       span.icon.is-small.is-left
@@ -14,7 +15,7 @@
     .control
       a.button.is-primary(@click="addNewTask") Go!
   .field
-    p.help Enter assignment!
+    p.help(:id="color") Enter assignment!
 </template>
 
 <script>
@@ -24,9 +25,15 @@ import { Bus } from "./Bus.js"
 
 export default {
   name: "hello",
+  props: ["scheduleObject", "settings"],
   data () {
     return {
       textEntry: ""
+    }
+  },
+  computed: {
+    color () {
+      return this.settings.color;
     }
   },
   methods: {

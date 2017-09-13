@@ -2,7 +2,7 @@
   div#interface
     section.section
       .container
-        task-entry
+        task-entry(:settings="settings")
     section.section
       .columns
         .column.is-6
@@ -19,6 +19,7 @@ import Planner from "./Planner.vue"
 
 export default {
   name: "Home",
+  props: ["scheduleObject", "settings"],
   components: {
     "task-entry": TaskEntry,
     "schedule-app": Schedule,

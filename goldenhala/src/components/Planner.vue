@@ -38,6 +38,7 @@ import { Bus } from "./Bus.js"
 
 export default {
   name: "Planner",
+  props: ["scheduleObject", "settings"],
   components: {
     draggable
   },

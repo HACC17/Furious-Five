@@ -18,7 +18,7 @@
               .navbar-item: router-link(to="settings"): i.fa.fa-cog
               .navbar-item: router-link(to="logout"): i.fa.fa-sign-out
     section.section
-      router-view
+      router-view(:settings="settings")
 </template>
 
 <script>
@@ -30,7 +30,9 @@ export default {
       plugins: [
         {name: "Common Break Finder", route: "commonbreak"},
         {name: "Teacher Rater", route: "teacherRater"}
-      ]
+      ],
+      scheduleObject: {name: "Test", value: "bob"},
+      settings: {name: "settings", color: "green"}
     }
   }
 }
