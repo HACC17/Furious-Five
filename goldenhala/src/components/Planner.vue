@@ -38,6 +38,7 @@
 /* eslint-disable */
 // import _ from "lodash"
 import draggable from "vuedraggable"
+// import bus from "./Bus.js"
 
 export default {
   name: "Planner",
@@ -93,6 +94,11 @@ export default {
            this.delayedDragging =false
       })
     }
+  },
+  created: () => {
+    bus.$on("addNewTask", () => {
+      alert("Bob!");
+    });
   }
 }
 </script>

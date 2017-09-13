@@ -13,9 +13,15 @@
 
 <script>
 /* eslint quotes: ["error", "double"] */
+import Vue from "vue"
 import TaskEntry from "./TaskEntry.vue"
 import Schedule from "./Schedule.vue"
 import Planner from "./Planner.vue"
+
+var bus = new Vue()
+function doNothing () {}
+doNothing(bus)
+
 export default {
   name: "Home",
   components: {

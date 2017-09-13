@@ -11,18 +11,26 @@
       .control.is-expanded
         input.input.is-full-width(type="text", placeholder="Hi")
       .control
-        a.button.is-primary Go!
+        a.button.is-primary(@click="addNewTask") Go!
     .field
       p.help Enter assignment!
 </template>
 
 <script>
 /* eslint quotes: ["error", "double"] */
+/* eslint-disable */
+// import bus from "./Bus.js"
+
 export default {
   name: "hello",
   data () {
     return {
       msg: "Welcome to Your Vue.js App"
+    }
+  },
+  methods: {
+    addNewTask () {
+      bus.$emit("addNewTask");
     }
   }
 }
