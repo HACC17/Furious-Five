@@ -19,7 +19,7 @@
 <script>
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
-// import bus from "./Bus.js"
+import { Bus } from "./Bus.js"
 
 export default {
   name: "hello",
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     addNewTask () {
-      bus.$emit("addNewTask");
+      Bus.$emit("addNewTask", "yof");
     }
   }
 }

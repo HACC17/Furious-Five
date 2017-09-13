@@ -38,7 +38,7 @@
 /* eslint-disable */
 // import _ from "lodash"
 import draggable from "vuedraggable"
-// import bus from "./Bus.js"
+import { Bus } from "./Bus.js"
 
 export default {
   name: "Planner",
@@ -96,8 +96,8 @@ export default {
     }
   },
   created: () => {
-    bus.$on("addNewTask", () => {
-      alert("Bob!");
+    Bus.$on("addNewTask", (msg) => {
+      alert(msg);
     });
   }
 }

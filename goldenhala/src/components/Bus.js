@@ -1,13 +1,4 @@
 /* eslint-disable */
-var STORAGE_KEY = "data";
-
-export default {
-  dataf: {
-    get: function () {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    },
-    set: function (todos) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-    }
-  }
-}
+// https://alligator.io/vuejs/global-event-bus/
+import Vue from "vue";
+export const Bus = new Vue();
