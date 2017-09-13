@@ -11,7 +11,13 @@
       span.icon.is-small.is-left
         i.fa.fa-globe
     .control.is-expanded
-      input.input.is-full-width(type="text", placeholder="Hi", v-model="textEntry")
+      input.input.is-full-width(
+        type="text",
+        :placeholder="placeholderText",
+        v-model="textEntry",
+        @keyup="analyzeEntry",
+        @keyup.enter="addNewTask"
+      )
     .control
       a.button.is-primary(@click="addNewTask") Go!
   .field
@@ -25,20 +31,24 @@ import { Bus } from "./Bus.js"
 
 export default {
   name: "hello",
-  props: ["scheduleObject", "settings"],
+  props: ["masterData"],
   data () {
     return {
-      textEntry: ""
+      textEntry: "",
+      placeholderText: "Enter assignment here"
     }
   },
   computed: {
     color () {
-      return this.settings.color;
+      return this.masterData.settings.color;
     }
   },
   methods: {
     addNewTask () {
       Bus.$emit("addNewTask", {origEntry: this.textEntry});
+    },
+    analyzeEntry () {
+      //
     }
   }
 }

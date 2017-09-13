@@ -21,10 +21,15 @@
           enter-active-class="animated tada",
           leave-active-class="animated bounceOutRight"
         )
-          .card: .card-content
-            if debug
-              span {{ task.id + " " }}
-            span {{ task.name }}
+          .card: .card-content: .level
+            .level-left
+              .level-item.dragHandle
+                span.icon: i.fa.fa-bars
+              .level-item.taskName(@dblclick="")
+                if debug
+                  span {{ task.id + " " }}
+                //- https://jsfiddle.net/jpeter06/ppyeo1tg/
+                span {{ task.name }}
   if debug
     pre {{ tasksString }}
 </template>
@@ -38,7 +43,7 @@ import { Bus } from "./Bus.js"
 
 export default {
   name: "Planner",
-  props: ["scheduleObject", "settings"],
+  props: ["masterData"],
   components: {
     draggable
   },
@@ -51,7 +56,7 @@ export default {
         {name: "Jean", id: "242342432423423"}
       ],
       animations: false,
-      editable: true,
+      currentlyEditing: true,
       isDragging: false,
       delayedDragging:false
     }
@@ -61,7 +66,8 @@ export default {
       return  {
         animation: 0,
         group: "tasks",
-        disabled: !this.editable,
+        disabled: !this.editing,
+        handle: ".dragHandle",
         ghostClass: "ghost"
       };
     },
@@ -105,6 +111,10 @@ export default {
 <style scoped>
 .card-content {
   padding: 0.5rem;
+}
+
+.dragHandle {
+  cursor: move;
 }
 
 .swap-move {

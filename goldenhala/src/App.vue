@@ -17,8 +17,8 @@
               .navbar-item: router-link(to="help"): i.fa.fa-question-circle
               .navbar-item: router-link(to="settings"): i.fa.fa-cog
               .navbar-item: router-link(to="logout"): i.fa.fa-sign-out
-    section.section
-      router-view(:settings="settings")
+    //- section.section
+    router-view(:masterData="masterData")
 </template>
 
 <script>
@@ -33,6 +33,14 @@ export default {
       ],
       scheduleObject: {name: "Test", value: "bob"},
       settings: {name: "settings", color: "green"}
+    }
+  },
+  computed: {
+    masterData () {
+      return {
+        scheduleObject: this.scheduleObject,
+        settings: this.settings
+      }
     }
   }
 }
