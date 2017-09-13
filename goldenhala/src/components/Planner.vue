@@ -2,35 +2,35 @@
   #plannerApp
     p {{ msg }}
     draggable(
+      element="ul",
       v-model="tasks",
       :options="dragOptions",
-      @start="drag=true",
-      @end="drag=false"
+      :move="onMove",
+      @start="isDragging=true",
+      @end="isDragging=false"
     )
-      transition-group(name="swap")
-        .task(
+      transition-group(type="transition", name="swap")
+        li.task-item(
           v-for="(task, index) in tasks",
           :key="task.id",
-          :id="'task' + task.name"
+          :id="'task-' + task.id"
         )
           .card: .card-content
-            | {{ task.name }}
-    draggable.list-group(element="ul", v-model="list", :options="dragOptions", :move="onMove", @start="isDragging=true", @end="isDragging=false")
-      transition-group(type="transition", :name="'flip-list'")
-        li.list-group-item(v-for="element in list", :key="element.order")
-          i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
-          | {{element.name}}
-          span.badge {{element.order}}
-    draggable(element="span", v-model="list2", :options="dragOptions", :move="onMove")
-      transition-group.list-group(name="no", tag="ul")
-        li.list-group-item(v-for="element in list2", :key="element.order")
-          i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
-          |               {{element.name}}
-          span.badge {{element.order}}
-    pre.
-      \n{{listString}}
-    pre.
-      \n{{list2String}}
+            span {{ task.id }}
+            span {{ task.name }}
+    //- draggable.list-group(element="ul", v-model="list", :options="dragOptions", :move="onMove", @start="isDragging=true", @end="isDragging=false")
+    //-   transition-group(type="transition", :name="'flip-list'")
+    //-     li.list-group-item(v-for="element in list", :key="element.order")
+    //-       i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
+    //-       | {{element.name}}
+    //-       span.badge {{element.order}}
+    //- draggable(element="span", v-model="list2", :options="dragOptions", :move="onMove")
+    //-   transition-group.list-group(name="no", tag="ul")
+    //-     li.list-group-item(v-for="element in list2", :key="element.order")
+    //-       i(:class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'", @click=" element.fixed=! element.fixed", aria-hidden="true")
+    //-       |               {{element.name}}
+    //-       span.badge {{element.order}}
+    pre {{ tasksString }}
 </template>
 
 <script>
@@ -38,7 +38,7 @@
 /* eslint-disable */
 // import _ from "lodash"
 import draggable from "vuedraggable"
-const message = [ "brandon", "jason", "bob" ]
+
 export default {
   name: "Planner",
   components: {
@@ -52,9 +52,9 @@ export default {
         {name: "Joao", id: "243434234"},
         {name: "Jean", id: "23432423"}
       ],
-      list: message.map( (name,index) => {return {name, order: index+1, fixed: false}; }),
-      list2:[],
-      editable:true,
+      // list: message.map( (name,index) => {return {name, order: index+1, fixed: false}; }),
+      // list2:[],
+      editable: true,
       isDragging: false,
       delayedDragging:false
     }
@@ -63,16 +63,13 @@ export default {
     dragOptions () {
       return  {
         animation: 0,
-        group: 'description',
+        group: "tasks",
         disabled: !this.editable,
-        ghostClass: 'ghost'
+        ghostClass: "ghost"
       };
     },
-    listString(){
-      return JSON.stringify(this.list, null, 2);
-    },
-    list2String(){
-      return JSON.stringify(this.list2, null, 2);
+    tasksString () {
+      return JSON.stringify(this.tasks, null, 2);
     }
   },
   methods: {
@@ -80,6 +77,7 @@ export default {
       this.list = this.list.sort((one,two) =>{return one.order-two.order; })
     },
     onMove ({relatedContext, draggedContext}) {
+      console.log(relatedContext, draggedContext)
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
       return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
@@ -101,11 +99,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.swap-move {
-  transition: transform 1s;
+.card-content {
+  padding: 0.5rem;
 }
 
-.flip-list-move {
+.swap-move {
   transition: transform 0.5s;
 }
 
@@ -113,12 +111,12 @@ export default {
   transition: transform 0s;
 }
 
-.ghost {
+.ghost > .card {
   opacity: .5;
-  background: #C8EBFB;
+  background: blue;
 }
 
-.list-group {
+/*.list-group {
   min-height: 20px;
 }
 
@@ -128,6 +126,6 @@ export default {
 
 .list-group-item i{
   cursor: pointer;
-}
+}*/
 
 </style>

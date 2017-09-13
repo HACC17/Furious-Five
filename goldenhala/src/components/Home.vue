@@ -1,19 +1,25 @@
 <template lang="pug">
   div#interface
-    .columns
-      .column.is-6
-        schedule-app
-      .column.is-6
-        planner-app
+    section.section
+      .container
+        task-entry
+    section.section
+      .columns
+        .column.is-6
+          schedule-app
+        .column.is-6
+          planner-app
 </template>
 
 <script>
 /* eslint quotes: ["error", "double"] */
+import TaskEntry from "./TaskEntry.vue"
 import Schedule from "./Schedule.vue"
 import Planner from "./Planner.vue"
 export default {
   name: "Home",
   components: {
+    "task-entry": TaskEntry,
     "schedule-app": Schedule,
     "planner-app": Planner
   },
