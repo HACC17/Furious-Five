@@ -1,5 +1,6 @@
 /* eslint-disable */
 
+// Example JSON schedule data
 var exampleSchedule = {
 	"schedule": {
 		"A-Day": [{"startTime":1,"endTime":4,"classTime":60,"classKey":11},
@@ -52,23 +53,62 @@ var exampleSchedule = {
 	}
 }
 
-var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"];
-var letterDayLength = letterDays.length;
-var i;
-var classData = [];
+var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Array for pushing the schedule data for each letter day
+	letterDayLength = letterDays.length, 
+	i,
+	j,
+	classRanges = [[], [], [], [], [], []], // Array to store the ranges of the class' starting and ending time
+	sortedSchedule = [[], [], [], [], [], []]; // Final schedule data to use for printing in schedule
 
-for (i = 0; i < letterDayLength; i++) {
-	var classes = exampleSchedule.schedule[letterDays[i]];
-	var startingTimes = _.map(classes, "startTime");
-	var classKey = _.map(classes, "classKey");
+function formatClassData() {
+		// Loop throught each letter day
+	for (i = 0; i < letterDayLength; i++) {
+		var classes = exampleSchedule.schedule[letterDays[i]], // Classes of a certain letter day
+			startingTimes = _.map(classes, "startTime"), // Array containing all starting times
+			endingTimes = _.map(classes, "endTime"), // Array containing all ending times
+			classKey = _.map(classes, "classKey"); // Array containing all class keys
+		
+		// Loop through all the startingTimes to get ranges of class time and push class data to sortedSchedule
+		for (j = 0; j < startingTimes.length; j++) {
+			sortedSchedule[i].push({
+				startTime: startingTimes[j],
+				endTime: endingTimes[j],
+				classData: exampleSchedule.key[classKey[j]]
+			});
+			// Class mods are the ranges of the class times
+			var classMods = _.range(startingTimes[j], endingTimes[j] + 1, 1) // Getting range of the classes (using start and end times)
+			classRanges[i] = _.concat(classRanges[i], classMods);
+		}
 
-	classData.push([]);
+		// Push array of break times
+		classRanges[i].push(_.differenceWith(_.range(1, 33), classRanges[i]));
 
-	for (var j = 0; j < startingTimes.length; j++) {
-		var keyData = exampleSchedule.key[classKey[j]];
-		classData[i].push([startingTimes[j], keyData]);
+		var breaksArray = classRanges[i][classRanges[i].length - 1]; // Array containing all the break times
+
+		// Loop through all the break times
+		for (j = 0; j < breaksArray.length; j++) {
+			// Array for break structure
+			var defaultBreak = {
+				startTime: breaksArray[j],
+				endTime: breaksArray[j],
+				classData: "."
+			}
+			// Check if it isn't the first break
+			if (j !== 0) {
+				// Check whether the break can be combined with previous
+				if (breaksArray[j] == breaksArray[j - 1] + 1) {
+					sortedSchedule[i][sortedSchedule[i].length - 1].endTime = breaksArray[j];
+				} else {
+					sortedSchedule[i].push(defaultBreak);
+				}
+			} else {
+				sortedSchedule[i].push(defaultBreak);
+			}
+		}
+		// Sort the final schedule data by starting time
+		sortedSchedule[i] = _.sortBy(sortedSchedule[i], "startTime");
 	}
-	
+	return sortedSchedule;
 }
 
-console.log(classData);
+var finalSched = formatClassData();
