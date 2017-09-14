@@ -18,8 +18,8 @@
         transition(
           :appear="animations",
           name="addTransition",
-          enter-active-class="animated tada",
-          leave-active-class="animated bounceOutRight"
+          enter-active-class="animated fadeIn",
+          leave-active-class="animated fadeOut"
         )
           .card(
             :class="{noSelection: task.editing}",
@@ -36,7 +36,7 @@
                   template(v-if="!task.editing")
                     span {{ task.name }}
                   template(v-else)
-                    input.input.is-small(
+                    input.input.is-fullwidth.is-small(
                       type="text",
                       v-model="task.name",
                       @blur="task.editing = false;"
@@ -44,6 +44,7 @@
                     )
                     //- TODO make input non-small but same size as text - or change to styled textarea?
   if debug
+    span {{ isEditing }}
     pre {{ tasksString }}
 </template>
 
@@ -64,9 +65,9 @@ export default {
     return {
       nextIDIncrement: 1,
       tasks: [
-        {name: "John", id: "13423423432423", editing: false},
-        {name: "Joao", id: "2343242343243242", editing: false},
-        {name: "Jean", id: "242342432423423", editing: false}
+        {name: "John", id: "100", editing: false},
+        {name: "Joao", id: "200", editing: false},
+        {name: "Jean", id: "300", editing: false}
       ],
       animations: false,
       isDragging: false,
@@ -74,6 +75,9 @@ export default {
     }
   },
   computed: {
+    isEditing () {
+      return _.some(this.tasks, "editing");
+    },
     dragOptions () {
       return  {
         animation: 0,
@@ -100,6 +104,9 @@ export default {
     }
   },
   watch: {
+    isEditing () {
+      Bus.$emit("taskEditChanged", this.isEditing); // Child-to-parent comm, not sibling comm
+    },
     isDragging (newValue) {
       if (newValue) {
         this.delayedDragging = true;
