@@ -25,7 +25,6 @@
             :class="{noSelection: task.editing}",
             @dblclick.stop="onEdit(task)"
           )
-            //- IMPORTANT TODO - FIX GLITCH - new dynamically edited todos cannot be edited!
             .card-content: .level
               .level-left
                 .level-item.dragHandle
@@ -54,7 +53,7 @@
 /* eslint-disable */
 import _ from "lodash"
 import draggable from "vuedraggable"
-import { Bus } from "./Bus.js"
+import { Bus, Store } from "./Bus.js"
 
 export default {
   name: "Planner",
@@ -65,19 +64,22 @@ export default {
   data () {
     return {
       nextIDIncrement: 1,
-      tasks: [
-        {name: "John", id: "100", editing: false, labels: ["important"]},
-        {name: "Joao", id: "200", editing: false, labels: ["urgent"]},
-        {name: "Jean", id: "300", editing: false, labels: ["important", "urgent"]}
-      ],
       animations: false,
       isDragging: false,
       delayedDragging:false
     }
   },
   computed: {
+    tasks: {
+      get: function () {
+        return Store.tasks;
+      },
+      set: function (task, index) {
+        this.addTask(task, index);
+      }
+    },
     isEditing () {
-      return _.some(this.tasks, "editing");
+      return _.some(Store.tasks, "editing");
     },
     dragOptions () {
       return  {
@@ -93,11 +95,18 @@ export default {
     }
   },
   methods: {
+    addTask (task, index = -1) {
+      console.log(task, index);
+      Store.tasks.splice(index, 0, task);
+      console.log("STORE!!")
+      console.log(Store)
+      console.log(this.tasks)
+    },
     onMove ({relatedContext, draggedContext}) {
       console.log(relatedContext, draggedContext)
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
-      return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed;
     },
     onEdit (task) {
       task.editing = !task.editing;
@@ -106,7 +115,7 @@ export default {
   },
   watch: {
     isEditing () {
-      Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]); // Child-to-parent comm, not sibling comm
+      Bus.$emit("taskEditChanged", this.isEditing); // Child-to-parent comm, not sibling comm
     },
     isDragging (newValue) {
       if (newValue) {
@@ -124,12 +133,8 @@ export default {
 
     // Bus Event Listeners
     Bus.$on("addNewTask", (taskObj) => {
-      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement});
+      this.addTask(_.merge(taskObj, {total: 0, id: this.nextIDIncrement}));
       this.nextIDIncrement++;
-    });
-
-    Bus.$on("taskChanged", (taskID, newTaskObj) => {
-      this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1, newTaskObj);
     });
   }
 }
@@ -163,6 +168,6 @@ export default {
 
 .ghost > .card {
   opacity: .5;
-  background: red;
+  background: blue;
 }
 </style>

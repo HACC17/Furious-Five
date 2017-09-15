@@ -6,18 +6,18 @@
     section.section#interfaceMain(:style="interfaceMainStyleObj")
       .columns
         .column
-          schedule-app
+          schedule-app(:masterData="masterData")
         .column
           .columns
             .column
-              planner-app
+              planner-app(:masterData="masterData")
             transition(
               name="showTaskEditTransition",
               enter-active-class="animated slideInRight",
               leave-active-class="animated slideOutRight"
             )
               .column(v-if="showTaskEdit")
-                task-edit
+                task-edit(:masterData="masterData", :focusedTask="focusedTask")
 </template>
 
 <script>
@@ -40,6 +40,7 @@ export default {
   },
   data () {
     return {
+      focusedTask: [],
       showTaskEdit: false,
       interfaceMainStyleObj: {}
     }
@@ -49,8 +50,8 @@ export default {
     this.interfaceMainStyleObj = {marginTop: jQuery("#interfaceTop").height() + "px"}
 
     // Bus Event Listeners
-    Bus.$on("taskEditChanged", (isEditing) => {
-      console.log(isEditing)
+    Bus.$on("taskEditChanged", (isEditing, focusedTask) => {
+      this.focusedTask = focusedTask
       this.showTaskEdit = isEditing
     })
   }

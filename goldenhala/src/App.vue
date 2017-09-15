@@ -31,6 +31,11 @@ export default {
         {name: "Common Break Finder", route: "commonbreak"},
         {name: "Teacher Rater", route: "teacherRater"}
       ],
+      tasks: [
+        {name: "John", id: "100", editing: false},
+        {name: "Joao", id: "200", editing: false},
+        {name: "Jean", id: "300", editing: false}
+      ],
       scheduleObject: {name: "Test", value: "bob"},
       settings: {name: "settings", color: "green"}
     }
@@ -38,6 +43,7 @@ export default {
   computed: {
     masterData () {
       return {
+        tasks: this.tasks,
         scheduleObject: this.scheduleObject,
         settings: this.settings
       }
