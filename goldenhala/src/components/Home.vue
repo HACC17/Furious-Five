@@ -3,7 +3,7 @@
     section.section#interfaceTop
       .container
         task-entry(:masterData="masterData")
-    section.section#interfaceMain(:style="interfaceMainStyleObj")
+    section.section#interfaceMain
       .flexWrapper
         .flexChild
           schedule-app(:masterData="masterData")
@@ -23,8 +23,7 @@
 
 <script>
 /* eslint quotes: ["error", "double"] */
-// import jQuery from "jQuery"
-// JQUERY NEEDED FOR ANIMATIONS TODO
+import jQuery from "jQuery"
 import { Bus } from "./Bus.js"
 import TaskEntry from "./TaskEntry.vue"
 import Schedule from "./Schedule.vue"
@@ -43,20 +42,21 @@ export default {
   data () {
     return {
       focusedTask: [],
-      showTaskEdit: false,
-      interfaceMainStyleObj: {}
+      showTaskEdit: false
     }
   },
   mounted: function () {
     // Setup Animations
-    // TODO
-    // this.interfaceMainStyleObj = {marginTop: jQuery("#interfaceTop").height() + "px"}
+    jQuery(".flexWrapper").height((jQuery(window).outerHeight() - (jQuery("#interfaceTop").outerHeight() + jQuery("#nav").outerHeight())) + "px")
 
     // Bus Event Listeners
     Bus.$on("taskEditChanged", (isEditing, focusedTask) => {
       this.focusedTask = focusedTask
       this.showTaskEdit = isEditing
     })
+  },
+  updated: function () {
+    // jQuery(".flexWrapper").height((jQuery(window).height() - jQuery("#interfaceTop").height()) + "px")
   }
 }
 </script>
@@ -75,9 +75,9 @@ export default {
 #interface {
   padding-top: 10px;
 }
-#interfaceTop {
-  /* TODO */
-  /*position: fixed;*/
+
+#interfaceMain {
+  padding-top: 0px;
   padding-bottom: 0px;
 }
 
@@ -95,14 +95,10 @@ export default {
 
 .flexWrapper {
   display: flex;
-  align-items: stretch;
-  height: 50vh;
 }
 
 .flexChild {
-  background-color: orange;
-  border: 1px solid #000; 
   flex: 1;
-  
+  overflow: auto;
 }
 </style>
