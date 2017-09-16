@@ -8,8 +8,12 @@
 
 <script>
 /* eslint quotes: ["error", "double"] */
+/* eslint-disable */
+import _ from "lodash"
+import { Bus } from "./Bus.js"
 export default {
   name: "Eisenhower",
+  props: ["masterData"],
   data () {
     return {
       myVar: "Welcome to Your Vue.js App",
