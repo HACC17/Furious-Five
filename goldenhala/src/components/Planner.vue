@@ -1,5 +1,5 @@
 <template lang="pug">
-- var debug = false
+- var debug = true
 #plannerApp
   draggable(
     element="ul",
@@ -23,6 +23,7 @@
     //-       leave-active-class="animated fadeOut"
     //-     )
   if debug
+    button(@click="deleteTask()") Delete last task
     span {{ isEditing }}
     pre {{ tasksString }}
 </template>
@@ -52,11 +53,14 @@ export default {
       ],
       animations: false,
       isDragging: false,
-      delayedDragging:false
+      delayedDragging: false,
+      prevEditingTask: null
     }
   },
   computed: {
     isEditing () {
+      // TODO - when you change the focused task, also change the sidebar by falsing the editing property of the prev focused task
+      this.prevEditingTask = (this.prevEditingTask) ? "" : _.some(this.tasks, "editing");
       return _.some(this.tasks, "editing");
     },
     dragOptions () {
@@ -104,6 +108,10 @@ export default {
 
     Bus.$on("taskChanged", (taskID, newTaskObj) => {
       this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1, newTaskObj);
+    });
+
+    Bus.$on("deleteTask", (taskID) => {
+      this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1);
     });
   }
 }

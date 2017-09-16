@@ -1,28 +1,30 @@
 <template lang="pug">
-  .task-item
-    .card(
-      :class="{noSelection: task.editing}",
-      @dblclick="task.editing = !task.editing;"
-    )
-      //-  @dblclick.stop="openSidebar(task)"
-      .card-content: .level
-        .level-left
-          .level-item.dragHandle
-            span.icon: i.fa.fa-bars
-          .level-item.taskNameWrapper
-            if debug
-              span {{ task.id + " " }}
-            //- https://jsfiddle.net/jpeter06/ppyeo1tg/
-            template(v-if="!task.editing")
-              span {{ task.name }}
-            template(v-else)
-              input.input.is-fullwidth.is-small(
-                type="text",
-                v-model="task.name",
-                @blur="task.editing = false;",
-                @keyup.enter="task.editing = false;"
-              )
-              //- TODO make input non-small but same size as text - or change to styled textarea?
+- var debug = false
+.task-item
+  .card(
+    :class="{noSelection: task.editing}",
+    @dblclick="task.editing = !task.editing;"
+  )
+    //-  @dblclick.stop="openSidebar(task)"
+    .card-content: .level
+      .level-left
+        .level-item.dragHandle
+          span.icon: i.fa.fa-bars
+        .level-item.taskNameWrapper
+          if debug
+            span {{ task.id + " " }}
+          //- https://jsfiddle.net/jpeter06/ppyeo1tg/
+          template(v-if="!task.editing")
+            input(type="checkbox", @change="deleteTask(task)")
+            span {{ task.name }}
+          template(v-else)
+            input.input.is-fullwidth.is-small(
+              type="text",
+              v-model="task.name",
+              @blur="task.editing = false;",
+              @keyup.enter="task.editing = false;"
+            )
+            //- TODO make input non-small but same size as text - or change to styled textarea?
 </template>
 
 <script>
@@ -36,13 +38,16 @@ export default {
   props: ["task"],
   data () {
     return {
-      msg: "Welcome to Your Vue.js App"
+      //
     }
   },
   methods: {
     onEdit (task) {
       task.editing = !task.editing;
       // TODO automatically focus on input element
+    },
+    deleteTask (task) {
+      Bus.$emit("deleteTask", task.id);
     },
     openSidebar () {
       //
