@@ -23,6 +23,7 @@
         )
           .card(
             :class="{noSelection: task.editing}",
+            @click="refreshSidebar()",
             @dblclick.stop="onEdit(task)"
           )
             //- IMPORTANT TODO - FIX GLITCH - new dynamically edited todos cannot be edited!
@@ -102,11 +103,15 @@ export default {
     onEdit (task) {
       task.editing = !task.editing;
       // TODO automatically focus on input element
+    },
+    refreshSidebar () {
+      console.log("Refreshing sidebar")
+      Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]); // Child-to-parent comm, not sibling comm
     }
   },
   watch: {
     isEditing () {
-      Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]); // Child-to-parent comm, not sibling comm
+      this.refreshSidebar();
     },
     isDragging (newValue) {
       if (newValue) {

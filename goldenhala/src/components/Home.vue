@@ -1,5 +1,5 @@
 <template lang="pug">
-  div#interface
+  #interface
     section.section#interfaceTop
       .container
         task-entry(:masterData="masterData")
