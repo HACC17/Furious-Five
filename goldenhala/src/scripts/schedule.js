@@ -107,8 +107,45 @@ function formatClassData() {
 		}
 		// Sort the final schedule data by starting time
 		sortedSchedule[i] = _.sortBy(sortedSchedule[i], "startTime");
-	}
+	}	
 	return sortedSchedule;
 }
 
-var finalSched = formatClassData();
+function addNewGridItem(options) {
+	console.log(options);
+	var $grid = $(".grid-stack").data("gridstack");
+  var gridItem = $("<div class='grid-stack-item' data-gs-locked style='background-color: red'> <div class='grid-stack-item-content'>test</div></div>");
+  $grid.addWidget(gridItem, 0, 0, 1, options.blockHeight, true);
+}
+
+$(document).ready(function() {
+	var schedData = formatClassData();
+  var options = {
+    cellHeight: 80,
+    verticalMargin: 10,
+    width: 6
+  };
+  $(".grid-stack").gridstack(options);
+  $("#addNew").on("click", addNewGridItem);
+  for (i = 0; i < 6; i++) {
+  	for (j = 0; j < schedData[i].length; j++) {
+  		var currentClass = schedData[i][j];
+  		// Object for configuring the grid
+  		var config = {
+  			blockHeight: schedData[i][j].endTime - schedData[i][j].startTime + 1,
+  			column: i,
+  			row: j,
+  			data: []
+  		}
+  		// Check if break
+  		if (currentClass.classData == ".") {
+  			config.data.push("Break");
+  		} else {
+  			config.data.push(schedData[i][j].classData.className);
+  			config.data.push(schedData[i][j].classData.teacher);
+  			config.data.push(schedData[i][j].classData.classroom);
+  		}
+  		// addNewGridItem(config);
+  	}
+  }
+});

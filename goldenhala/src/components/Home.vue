@@ -4,10 +4,10 @@
       .container
         task-entry(:masterData="masterData")
     section.section#interfaceMain(:style="interfaceMainStyleObj")
-      .columns
-        .column
+      .flexWrapper
+        .flexChild
           schedule-app(:masterData="masterData")
-        .column
+        .flexChild
           .columns
             .column
               div.scrollContain
@@ -91,5 +91,18 @@ export default {
   text-overflow: ellipsis;
   white-space: pre-line;
   /*overflow:hidden;*/
+}
+
+.flexWrapper {
+  display: flex;
+  align-items: stretch;
+  height: 50vh;
+}
+
+.flexChild {
+  background-color: orange;
+  border: 1px solid #000; 
+  flex: 1;
+  
 }
 </style>
