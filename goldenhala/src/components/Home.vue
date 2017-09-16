@@ -18,7 +18,7 @@
               leave-active-class="animated slideOutRight"
             )
               .column(v-if="showTaskEdit")
-                task-edit(:masterData="masterData", :focusedTask="focusedTask")
+                task-edit(:masterData="masterData", :task="focusedTask")
 </template>
 
 <script>

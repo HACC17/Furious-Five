@@ -10,9 +10,12 @@
 <script>
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
+import _ from "lodash"
+import { Bus } from "./Bus.js"
+
 export default {
-  name: "hello",
-  props: ["masterData", "focusedTask"],
+  name: "TaskEdit",
+  props: ["masterData", "task"],
   data () {
     return {
       msg: "Welcome to Your Vue.js App"
@@ -20,10 +23,10 @@ export default {
   },
   computed: {
     importantBtnStyle () {
-      return (this.focusedTask.labels.indexOf("important") > -1) ? "" : "is-outlined";
+      return (this.task.labels.indexOf("important") > -1) ? "" : "is-outlined";
     },
     urgentBtnStyle () {
-      return (this.focusedTask.labels.indexOf("urgent") > -1) ? "" : "is-outlined";
+      return (this.task.labels.indexOf("urgent") > -1) ? "" : "is-outlined";
     }
   },
   methods: {
@@ -32,7 +35,7 @@ export default {
     }
   },
   mounted: function () {
-    console.log(this.focusedTask);
+    console.log(this.task);
   }
 }
 </script>

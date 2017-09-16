@@ -46,9 +46,9 @@ export default {
     return {
       nextIDIncrement: 1,
       tasks: [
-        {name: "John", id: "100", editing: false, labels: ["important"]},
-        {name: "Joao", id: "200", editing: false, labels: ["urgent"]},
-        {name: "Jean", id: "300", editing: false, labels: ["important", "urgent"]}
+        {name: "John", id: 100, editing: false, labels: ["important"]},
+        {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
+        {name: "Jean", id: 300, editing: false, labels: ["important", "urgent"]}
       ],
       animations: false,
       isDragging: false,
@@ -73,13 +73,9 @@ export default {
     }
   },
   methods: {
-    onEdit (task) {
-      task.editing = !task.editing;
-      // TODO automatically focus on input element
-    },
     refreshSidebar () {
       console.log("Refreshing sidebar")
-      Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]); // Child-to-parent comm, not sibling comm
+      Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]);
     }
   },
   watch: {
@@ -102,7 +98,7 @@ export default {
 
     // Bus Event Listeners
     Bus.$on("addNewTask", (taskObj) => {
-      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement});
+      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: []});
       this.nextIDIncrement++;
     });
 

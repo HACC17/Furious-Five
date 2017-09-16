@@ -2,10 +2,9 @@
   .task-item
     .card(
       :class="{noSelection: task.editing}",
-      @click="refreshSidebar()",
-      @dblclick.stop="onEdit(task)"
+      @dblclick="task.editing = !task.editing;"
     )
-      //- IMPORTANT TODO - FIX GLITCH - new dynamically edited todos cannot be edited!
+      //-  @dblclick.stop="openSidebar(task)"
       .card-content: .level
         .level-left
           .level-item.dragHandle
@@ -20,7 +19,7 @@
               input.input.is-fullwidth.is-small(
                 type="text",
                 v-model="task.name",
-                @blur="task.editing = false;"
+                @blur="task.editing = false;",
                 @keyup.enter="task.editing = false;"
               )
               //- TODO make input non-small but same size as text - or change to styled textarea?
@@ -30,7 +29,6 @@
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
 import _ from "lodash"
-import draggable from "vuedraggable"
 import { Bus } from "./Bus.js"
 
 export default {
@@ -39,6 +37,15 @@ export default {
   data () {
     return {
       msg: "Welcome to Your Vue.js App"
+    }
+  },
+  methods: {
+    onEdit (task) {
+      task.editing = !task.editing;
+      // TODO automatically focus on input element
+    },
+    openSidebar () {
+      //
     }
   }
 }
