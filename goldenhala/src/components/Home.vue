@@ -10,7 +10,8 @@
         .column
           .columns
             .column
-              planner-app(:masterData="masterData")
+              div.scrollContain
+                planner-app(:masterData="masterData")
             transition(
               name="showTaskEditTransition",
               enter-active-class="animated slideInRight",
@@ -74,5 +75,17 @@ export default {
 }
 #interfaceTop {
   position: fixed;
+}
+
+.scrollContain {
+  border: 1px solid red;
+  top: 0px;
+  bottom: 0px;
+  height: 100%;
+  /*max-height: 100px;*/
+  overflow: scroll;
+  text-overflow: ellipsis;
+  white-space: pre-line;
+  /*overflow:hidden;*/
 }
 </style>

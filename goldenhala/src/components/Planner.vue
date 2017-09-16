@@ -5,46 +5,23 @@
     element="ul",
     v-model="tasks",
     :options="dragOptions",
-    :move="onMove",
     @start="isDragging=true",
     @end="isDragging=false"
   )
     transition-group(type="transition", name="swap")
-      li.task-item(
+      li(
+        is="task-item",
         v-for="(task, index) in tasks",
+        :task="task",
         :key="task.id",
         :id="'task-' + task.id"
-      )
-        transition(
-          :appear="animations",
-          name="addTransition",
-          enter-active-class="animated fadeIn",
-          leave-active-class="animated fadeOut"
-        )
-          .card(
-            :class="{noSelection: task.editing}",
-            @click="refreshSidebar()",
-            @dblclick.stop="onEdit(task)"
-          )
-            //- IMPORTANT TODO - FIX GLITCH - new dynamically edited todos cannot be edited!
-            .card-content: .level
-              .level-left
-                .level-item.dragHandle
-                  span.icon: i.fa.fa-bars
-                .level-item.taskNameWrapper
-                  if debug
-                    span {{ task.id + " " }}
-                  //- https://jsfiddle.net/jpeter06/ppyeo1tg/
-                  template(v-if="!task.editing")
-                    span {{ task.name }}
-                  template(v-else)
-                    input.input.is-fullwidth.is-small(
-                      type="text",
-                      v-model="task.name",
-                      @blur="task.editing = false;"
-                      @keyup.enter="task.editing = false;"
-                    )
-                    //- TODO make input non-small but same size as text - or change to styled textarea?
+    )
+    //-     transition(
+    //-       :appear="animations",
+    //-       name="addTransition",
+    //-       enter-active-class="animated fadeIn",
+    //-       leave-active-class="animated fadeOut"
+    //-     )
   if debug
     span {{ isEditing }}
     pre {{ tasksString }}
@@ -56,12 +33,14 @@
 import _ from "lodash"
 import draggable from "vuedraggable"
 import { Bus } from "./Bus.js"
+import TaskItem from "./TaskItem.vue"
 
 export default {
   name: "Planner",
   props: ["masterData"],
   components: {
-    draggable
+    draggable,
+    "task-item": TaskItem
   },
   data () {
     return {
@@ -94,12 +73,6 @@ export default {
     }
   },
   methods: {
-    onMove ({relatedContext, draggedContext}) {
-      console.log(relatedContext, draggedContext)
-      const relatedElement = relatedContext.element;
-      const draggedElement = draggedContext.element;
-      return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-    },
     onEdit (task) {
       task.editing = !task.editing;
       // TODO automatically focus on input element
@@ -142,32 +115,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card-content {
-  padding: 0.5rem;
-}
-
-.dragHandle {
-  cursor: move;
-}
-
-.noSelection {
-  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-  -moz-user-select: none; /* mozilla browsers */
-  -khtml-user-select: none; /* webkit (konqueror) browsers */
-  -ms-user-select: none; /* IE10+ */
-  user-select: none;
-}
-
 .swap-move {
   transition: transform 0.5s;
 }
 
 .no-move {
   transition: transform 0s;
-}
-
-.ghost > .card {
-  opacity: .5;
-  background: red;
 }
 </style>
