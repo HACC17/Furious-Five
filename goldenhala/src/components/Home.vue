@@ -23,7 +23,8 @@
 
 <script>
 /* eslint quotes: ["error", "double"] */
-import jQuery from "jQuery"
+// import jQuery from "jQuery"
+// JQUERY NEEDED FOR ANIMATIONS TODO
 import { Bus } from "./Bus.js"
 import TaskEntry from "./TaskEntry.vue"
 import Schedule from "./Schedule.vue"
@@ -48,7 +49,8 @@ export default {
   },
   mounted: function () {
     // Setup Animations
-    this.interfaceMainStyleObj = {marginTop: jQuery("#interfaceTop").height() + "px"}
+    // TODO
+    // this.interfaceMainStyleObj = {marginTop: jQuery("#interfaceTop").height() + "px"}
 
     // Bus Event Listeners
     Bus.$on("taskEditChanged", (isEditing, focusedTask) => {
@@ -74,7 +76,9 @@ export default {
   padding-top: 10px;
 }
 #interfaceTop {
-  position: fixed;
+  /* TODO */
+  /*position: fixed;*/
+  padding-bottom: 0px;
 }
 
 .scrollContain {
