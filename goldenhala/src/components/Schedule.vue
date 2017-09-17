@@ -59,8 +59,9 @@ export default {
     margin: auto;
   }
 
-  #scheduleApp .grid-stack div {
+  #scheduleApp .grid-stack .grid-stack-item {
     background-color: red;
+    border: 1px solid #000;
   }
 
   .grid-stack {

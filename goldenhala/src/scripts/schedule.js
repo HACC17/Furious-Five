@@ -114,29 +114,36 @@ function formatClassData() {
 function addNewGridItem(options) {
 	console.log(options);
 	var $grid = $(".grid-stack").data("gridstack");
-  var gridItem = $("<div class='grid-stack-item' data-gs-locked style='background-color: red'> <div class='grid-stack-item-content'>test</div></div>");
-  $grid.addWidget(gridItem, 0, 0, 1, options.blockHeight, true);
+  var gridItem = $("<div class='grid-stack-item' data-gs-locked style='background-color: red'> <div class='grid-stack-item-content'>" + options.data[0] + "</div></div>");
+  console.log(options.column, options.row);
+  $grid.addWidget(gridItem, options.column, options.row, 1, options.blockHeight);
 }
 
 $(document).ready(function() {
 	var schedData = formatClassData();
   var options = {
-    cellHeight: 80,
-    verticalMargin: 10,
-    width: 6
+    cellHeight: 30,
+    width: 6,
+    staticGrid: true,
+    disableDrag: true,
+    disableResize: true,
+    verticalMargin: 0
   };
-  $(".grid-stack").gridstack(options);
+  $(".grid-stack").gridstack(options)
   $("#addNew").on("click", addNewGridItem);
   for (i = 0; i < 6; i++) {
+  	var rowNum = 0
   	for (j = 0; j < schedData[i].length; j++) {
   		var currentClass = schedData[i][j];
   		// Object for configuring the grid
   		var config = {
   			blockHeight: schedData[i][j].endTime - schedData[i][j].startTime + 1,
   			column: i,
-  			row: j,
-  			data: []
-  		}
+  			data: [],
+  			row: rowNum
+   		}
+
+  		rowNum += config.blockHeight;
   		// Check if break
   		if (currentClass.classData == ".") {
   			config.data.push("Break");
@@ -145,7 +152,7 @@ $(document).ready(function() {
   			config.data.push(schedData[i][j].classData.teacher);
   			config.data.push(schedData[i][j].classData.classroom);
   		}
-  		// addNewGridItem(config);
+  		addNewGridItem(config);
   	}
   }
 });
