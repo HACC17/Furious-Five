@@ -32,11 +32,7 @@ export default {
         {name: "Eisenhower", route: "eisenhower"}
         // {name: "Teacher Rater", route: "teacherRater"}
       ],
-      tasks: [
-        {name: "John", id: 100, editing: false, labels: ["important"]},
-        {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
-        {name: "Jean", id: 300, editing: false, labels: ["important", "urgent"]}
-      ],
+      tasks: [],
       scheduleObject: {name: "Test", value: "bob"},
       settings: {name: "settings", color: "green"}
     }
