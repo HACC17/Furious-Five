@@ -2,7 +2,7 @@
 - var debug = false
 .task-item.card(
   :class="{noSelection: task.editing}",
-  @dblclick="task.editing = !task.editing;"
+  @dblclick="onEdit"
 )
   //-  @dblclick.stop="openSidebar(task)"
   .card-content: .level
@@ -41,9 +41,9 @@ export default {
     }
   },
   methods: {
-    onEdit (task) {
-      task.editing = !task.editing;
-      // TODO automatically focus on input element
+    onEdit () {
+      this.task.editing = !this.task.editing;
+      Bus.$emit("setPrevEditingTaskID", (this.task.editing) ? this.task.id : null);
     },
     deleteTask (task) {
       Bus.$emit("deleteTask", task.id);
@@ -51,6 +51,9 @@ export default {
     openSidebar () {
       //
     }
+  },
+  beforeDestroy: function () {
+    Bus.$off();
   }
 }
 </script>

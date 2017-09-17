@@ -48,7 +48,7 @@ export default {
       animations: false,
       isDragging: false,
       delayedDragging: false,
-      prevEditingTask: null
+      prevEditingTaskID: null
     }
   },
   computed: {
@@ -56,8 +56,9 @@ export default {
       return _.max(_.map(this.tasks, "id")) + 1;
     },
     isEditing () {
-      // TODO - when you change the focused task, also change the sidebar by falsing the editing property of the prev focused task
-      this.prevEditingTask = (this.prevEditingTask) ? "" : _.some(this.tasks, "editing");
+      if (this.prevEditingTaskID) {
+        _.find(this.tasks, {id: this.prevEditingTaskID}).editing = true;
+      }
       return _.some(this.tasks, "editing");
     },
     dragOptions () {
@@ -100,12 +101,23 @@ export default {
     this.animations = true;
 
     // Bus Event Listeners
+
+    // From TaskEntry
     Bus.$on("addNewTask", (taskObj) => {
       this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: []});
     });
 
-    Bus.$on("taskChanged", (taskID, newTaskObj) => {
-      this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1, newTaskObj);
+    // From TaskEdit
+    // Bus.$on("taskChanged", (taskID, newTaskObj) => {
+    //   this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1, newTaskObj);
+    // });
+
+    Bus.$on("setPrevEditingTaskID", (taskID) => {
+      _.map(this.tasks, function (t) {
+        t.editing = false;
+      });
+      this.prevEditingTaskID = taskID;
+      this.refreshSidebar();
     });
 
     Bus.$on("deleteTask", (taskID) => {
@@ -113,6 +125,9 @@ export default {
     });
   },
   beforeDestroy: function () {
+    _.map(this.tasks, function (t) {
+      t.editing = false;
+    });
     Bus.$off();
   }
 }
