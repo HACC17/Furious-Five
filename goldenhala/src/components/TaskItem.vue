@@ -1,31 +1,29 @@
 <template lang="pug">
 - var debug = false
-.task-item
-  .card(
-    :class="{noSelection: task.editing}",
-    @dblclick="task.editing = !task.editing;"
-  )
-    //-  @dblclick.stop="openSidebar(task)"
-    .card-content: .level
-      .level-left
-        .level-item.dragHandle
-          span.icon: i.fa.fa-bars
-        .level-item
-          input(type="checkbox", @change="deleteTask(task)")
-        .level-item.taskNameWrapper
-          if debug
-            span {{ task.id + " " }}
-          //- https://jsfiddle.net/jpeter06/ppyeo1tg/
-          template(v-if="!task.editing")
-            span {{ task.name }}
-          template(v-else)
-            input.input.is-fullwidth.is-small(
-              type="text",
-              v-model="task.name",
-              @blur="task.editing = false;",
-              @keyup.enter="task.editing = false;"
-            )
-            //- TODO make input non-small but same size as text - or change to styled textarea?
+.task-item.card(
+  :class="{noSelection: task.editing}",
+  @dblclick="task.editing = !task.editing;"
+)
+  //-  @dblclick.stop="openSidebar(task)"
+  .card-content: .level
+    .level-left
+      .level-item.dragHandle
+        span.icon: i.fa.fa-bars
+      .level-item
+        input(type="checkbox", @change="deleteTask(task)")
+      .level-item.taskNameWrapper
+        if debug
+          span {{ task.id + " " }}
+        //- https://jsfiddle.net/jpeter06/ppyeo1tg/
+        template(v-if="!task.editing")
+          span {{ task.name }}
+        template(v-else)
+          input.input.is-fullwidth.is-small(
+            type="text",
+            v-model="task.name",
+            @blur="task.editing = false;",
+            @keyup.enter="task.editing = false;"
+          )
 </template>
 
 <script>
@@ -59,10 +57,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card-content {
-  padding: 0.5rem;
-}
-
 .dragHandle {
   cursor: move;
 }

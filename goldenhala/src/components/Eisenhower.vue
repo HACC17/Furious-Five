@@ -11,15 +11,21 @@
         span 1
       .columns
         .column
-          each i in [1,2,3,4,5,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,11,1,1,1,11,11,1,1,1]
-            p.card= i
+          .card(v-for="(task, index) in tasksFirstHalf"): .card-content: .level
+            .level-left
+              .level-item
+                span {{ task.name }}
         .column
-          each i in [1,2,3,4,5,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,11,1,1,1,11,11,1,1,1]
-            p.card= i
+          .card(v-for="(task, index) in tasksSecondHalf"): .card-content: .level
+            .level-left
+              .level-item
+                span {{ task.name }}
       //- li(v-for="classes in masterData.tasks") {{ item.message }}
     .column
       if debug
         span 3
+      each i in [1,2,3,4,5,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,11,1,1,1,11,11,1,1,1]
+        p.card= i
   .flexChild
     .column
       if debug
@@ -40,8 +46,17 @@ export default {
   props: ["masterData"],
   data () {
     return {
-      //
+      tasksFirstHalf: this.masterData.tasks.slice(0, Math.ceil(this.masterData.tasks.length / 2)),
+      tasksSecondHalf: this.masterData.tasks.slice(Math.ceil(this.masterData.tasks.length / 2), this.masterData.tasks.length)
     }
+  },
+  computed: {
+    // tasksFirstHalf () {
+    //   return this.masterData.tasks.splice(0, Math.ceil(this.masterData.tasks.length / 2));
+    // },
+    // tasksSecondHalf () {
+    //   return this.masterData.tasks.splice(Math.ceil(this.masterData.tasks.length / 2), this.masterData.tasks.length - 1);
+    // }
   },
   mounted: function () {
     console.log("hi")
