@@ -36,9 +36,6 @@ export default {
           this.task[args[0]] = _.xor(this.task[args[0]], args[1]);
       }
     }
-  },
-  mounted: function () {
-    console.log(this.task);
   }
 }
 </script>

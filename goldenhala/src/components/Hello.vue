@@ -1,15 +1,23 @@
 <template lang="pug">
-  p Bob
+  p {{ msg }}
 </template>
 
 <script>
 /* eslint quotes: ["error", "double"] */
+import { Bus } from "./Bus.js"
+
 export default {
-  name: "hello",
+  name: "Hello",
   data () {
     return {
-      msg: "Welcome to Your Vue.js App"
+      msg: "hi"
     }
+  },
+  mounted: function () {
+    //
+  },
+  beforeDestroy: function () {
+    Bus.$off();
   }
 }
 </script>

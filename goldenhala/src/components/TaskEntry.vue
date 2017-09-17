@@ -4,10 +4,11 @@
   .field.has-addons.has-addons-centered
     .control.has-icons-left
       span.select
-        select
+        select(v-model="selectedClass")
           option(selected)
-          each val in [1, 2, 3]
-            option= val
+          option(v-for="schoolClass in sched.key") {{ schoolClass.className.split(" ").slice(0, 2).join(" ") }}
+          //- each val in [1, 2, 3]
+          //-   option= val
       span.icon.is-small.is-left
         i.fa.fa-globe
     .control.is-expanded
@@ -21,13 +22,14 @@
     .control
       a.button.is-primary(@click="addNewTask") Go!
   .field
-    p.help(:id="color") Enter assignment!
+    p.help(:id="color") {{ selectedClass }}
 </template>
 
 <script>
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
 import { Bus } from "./Bus.js"
+import { ExSched } from "../assets/ExSched.js"
 
 export default {
   name: "hello",
@@ -35,7 +37,9 @@ export default {
   data () {
     return {
       textEntry: "",
-      placeholderText: "Enter assignment here"
+      placeholderText: "Enter assignment here",
+      selectedClass: null,
+      sched: ExSched
     }
   },
   computed: {
@@ -46,6 +50,7 @@ export default {
   methods: {
     addNewTask () {
       Bus.$emit("addNewTask", {origEntry: this.textEntry});
+      this.textEntry = "";
     },
     analyzeEntry () {
       //

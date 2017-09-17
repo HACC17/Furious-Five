@@ -75,7 +75,6 @@ export default {
   },
   methods: {
     refreshSidebar () {
-      console.log("Refreshing sidebar")
       Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]);
     }
   },

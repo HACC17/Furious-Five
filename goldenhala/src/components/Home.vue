@@ -60,7 +60,7 @@ export default {
     })
   },
   beforeDestroy: function () {
-    Bus.$off();
+    Bus.$off()
   }
 }
 </script>
