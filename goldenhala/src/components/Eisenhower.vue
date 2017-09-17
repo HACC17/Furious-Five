@@ -11,28 +11,34 @@
         span 1
       .columns
         .column
-          .card(v-for="(task, index) in tasksFirstHalf"): .card-content: .level
-            .level-left
-              .level-item
-                span {{ task.name }}
-        .column
-          .card(v-for="(task, index) in tasksSecondHalf"): .card-content: .level
-            .level-left
-              .level-item
-                span {{ task.name }}
+          .card(v-for="(task, index) in uiTasks"): .card-content: .level
+            .level-left: .level-item: span {{ task.name }}
+        //- .column
+        //-   .card(v-for="(task, index) in uniTasks"): .card-content: .level
+        //-     .level-left: .level-item: span {{ task.name }}
       //- li(v-for="classes in masterData.tasks") {{ item.message }}
     .column
       if debug
         span 3
-      each i in [1,2,3,4,5,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,11,1,1,1,11,11,1,1,1]
-        p.card= i
+      .columns
+        .column
+          .card(v-for="(task, index) in uniTasks"): .card-content: .level
+            .level-left: .level-item: span {{ task.name }}
   .flexChild
     .column
       if debug
         span 2
+      .columns
+        .column
+          .card(v-for="(task, index) in nuiTasks"): .card-content: .level
+            .level-left: .level-item: span {{ task.name }}
     .column
       if debug
         span 4
+      .columns
+        .column
+          .card(v-for="(task, index) in nuniTasks"): .card-content: .level
+            .level-left: .level-item: span {{ task.name }}
 </template>
 
 <script>
@@ -46,20 +52,38 @@ export default {
   props: ["masterData"],
   data () {
     return {
-      tasksFirstHalf: this.masterData.tasks.slice(0, Math.ceil(this.masterData.tasks.length / 2)),
-      tasksSecondHalf: this.masterData.tasks.slice(Math.ceil(this.masterData.tasks.length / 2), this.masterData.tasks.length)
+      //
     }
   },
   computed: {
-    // tasksFirstHalf () {
-    //   return this.masterData.tasks.splice(0, Math.ceil(this.masterData.tasks.length / 2));
-    // },
-    // tasksSecondHalf () {
-    //   return this.masterData.tasks.splice(Math.ceil(this.masterData.tasks.length / 2), this.masterData.tasks.length - 1);
-    // }
+    uiTasks () {
+      return _.filter(this.masterData.tasks, (task) => {
+        return task.labels.indexOf("urgent") > -1 && task.labels.indexOf("important") > -1;
+      });
+    },
+    nuiTasks () {
+      return _.filter(this.masterData.tasks, (task) => {
+        return task.labels.indexOf("urgent") === -1 && task.labels.indexOf("important") > -1;
+      });
+    },
+    uniTasks () {
+      return _.filter(this.masterData.tasks, (task) => {
+        return task.labels.indexOf("urgent") > -1 && task.labels.indexOf("important") === -1;
+      });
+    },
+    nuniTasks () {
+      return _.filter(this.masterData.tasks, (task) => {
+        return task.labels.indexOf("urgent") === -1 && task.labels.indexOf("important") === -1;
+      });
+    }
+  },
+  methods: {
+    // Future design integration
+    splitArray (filteredTasks, whichHalf) {
+      (whichHalf === 1) ? filteredTasks.slice(0, Math.ceil(filteredTasks.length / 2)) : filteredTasks.slice(Math.ceil(filteredTasks.length / 2), filteredTasks.length);
+    }
   },
   mounted: function () {
-    console.log("hi")
     // Setup Styling & Animations
     jQuery(".flexWrapper").height((jQuery(window).outerHeight() - (jQuery("#nav").outerHeight())) + "px");
 

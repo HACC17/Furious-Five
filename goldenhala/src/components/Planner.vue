@@ -1,5 +1,5 @@
 <template lang="pug">
-- var debug = true
+- var debug = false
 #plannerApp
   draggable(
     element="ul",
