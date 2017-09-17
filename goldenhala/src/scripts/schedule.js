@@ -62,13 +62,12 @@ var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Arra
 
 
 function addColors () {
-	// var colors = ["red", "orange", "green", "blue", "yellow" "indigo", "magenta", "pink"];
-	var classLen = Object.keys(exampleSchedule.key).length - 1;
+	var colors = ["red", "orange", "green", "blue", "yellow", "#6699ff", "magenta", "pink", "#00ff00", "#ff3399", "#0066ff", "#ffff00", "#cc66ff", "#0033cc"];
+	var classLen = Object.keys(exampleSchedule.key).length;
 	for (var i = 0; i < classLen; i++) {
-		// exampleSchedule.key[i].color = colors[i];
+		exampleSchedule.key[i].color = colors[i];
 	}
 }
-
 
 function formatClassData() {
 		// Loop throught each letter day
@@ -123,7 +122,7 @@ function formatClassData() {
 
 function addNewGridItem(options) {
 	var $grid = $(".grid-stack").data("gridstack");
-  var gridItem = $("<div class='grid-stack-item' data-gs-locked style='background-color: red'> <div class='grid-stack-item-content'>" + options.data[0] + "</div></div>");
+  var gridItem = $("<div class='grid-stack-item' data-gs-locked style='text-align: center; font-size: 80%; background-color: " + options.color + "'> <div class='grid-stack-item-content'>" + options.name + "\n" + options.room + "</div></div>");
   $grid.addWidget(gridItem, options.column, options.row, 1, options.blockHeight);
 }
 
@@ -150,16 +149,17 @@ $(document).ready(function() {
   			blockHeight: schedData[i][j].endTime - schedData[i][j].startTime + 1,
   			column: i,
   			data: [],
-  			row: rowNum
+  			row: rowNum,
+  			color: schedData[i][j].classData.color
    		}
   		rowNum += config.blockHeight;
 
   		if (currentClass.classData == ".") {
-  			config.data.push("Break");
+  			config.name = "Break";
+  			config.room = "";
   		} else {
-  			config.data.push(schedData[i][j].classData.className);
-  			config.data.push(schedData[i][j].classData.teacher);
-  			config.data.push(schedData[i][j].classData.classroom);
+  			config.name = schedData[i][j].classData.className;
+  			config.room = schedData[i][j].classData.classroom;
   		}
   		addNewGridItem(config);
   	}
