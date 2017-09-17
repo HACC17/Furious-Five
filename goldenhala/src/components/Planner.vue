@@ -46,11 +46,6 @@ export default {
   data () {
     return {
       nextIDIncrement: 1,
-      tasks: [
-        {name: "John", id: 100, editing: false, labels: ["important"]},
-        {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
-        {name: "Jean", id: 300, editing: false, labels: ["important", "urgent"]}
-      ],
       animations: false,
       isDragging: false,
       delayedDragging: false,
@@ -58,6 +53,9 @@ export default {
     }
   },
   computed: {
+    tasks () {
+      return this.masterData.tasks;
+    },
     isEditing () {
       // TODO - when you change the focused task, also change the sidebar by falsing the editing property of the prev focused task
       this.prevEditingTask = (this.prevEditingTask) ? "" : _.some(this.tasks, "editing");
