@@ -61,11 +61,6 @@ export default {
   cursor: move;
 }
 
-.ghost > .card {
-  opacity: .5;
-  background: red;
-}
-
 .noSelection {
   -webkit-user-select: none; /* webkit (safari, chrome) browsers */
   -moz-user-select: none;  /* mozilla browsers */

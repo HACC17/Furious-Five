@@ -23,6 +23,8 @@
 
 <script>
 /* eslint quotes: ["error", "double"] */
+import { Bus } from "@/components/Bus.js"
+
 export default {
   name: "App",
   data () {
@@ -32,7 +34,11 @@ export default {
         {name: "Eisenhower", route: "eisenhower"}
         // {name: "Teacher Rater", route: "teacherRater"}
       ],
-      tasks: [],
+      tasks: [
+        {name: "John", id: 100, editing: false, labels: ["important"]},
+        {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
+        {name: "Jean", id: 300, editing: false, labels: ["important", "urgent"]}
+      ],
       scheduleObject: {name: "Test", value: "bob"},
       settings: {name: "settings", color: "green"}
     }
@@ -45,6 +51,14 @@ export default {
         settings: this.settings
       }
     }
+  },
+  mounted: function () {
+    Bus.$on("updateAllTasks", (newTasks) => {
+      this.tasks = newTasks
+    })
+  },
+  beforeDestroy: function () {
+    Bus.$off();
   }
 }
 </script>

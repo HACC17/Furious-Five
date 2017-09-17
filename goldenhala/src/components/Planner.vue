@@ -23,7 +23,6 @@
     //-       leave-active-class="animated fadeOut"
     //-     )
   if debug
-    button(@click="deleteTask()") Delete last task
     span {{ isEditing }}
     pre {{ tasksString }}
 </template>
@@ -45,12 +44,7 @@ export default {
   },
   data () {
     return {
-      nextIDIncrement: 1,
-      tasks: [
-        {name: "John", id: 100, editing: false, labels: ["important"]},
-        {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
-        {name: "Jean", id: 300, editing: false, labels: ["important", "urgent"]}
-      ],
+      tasks: this.masterData.tasks,
       animations: false,
       isDragging: false,
       delayedDragging: false,
@@ -58,6 +52,9 @@ export default {
     }
   },
   computed: {
+    nextIDIncrement () {
+      return _.max(_.map(this.tasks, "id")) + 1;
+    },
     isEditing () {
       // TODO - when you change the focused task, also change the sidebar by falsing the editing property of the prev focused task
       this.prevEditingTask = (this.prevEditingTask) ? "" : _.some(this.tasks, "editing");
@@ -83,6 +80,9 @@ export default {
     }
   },
   watch: {
+    tasks () {
+      Bus.$emit("updateAllTasks", this.tasks);
+    },
     isEditing () {
       this.refreshSidebar();
     },
@@ -103,7 +103,6 @@ export default {
     // Bus Event Listeners
     Bus.$on("addNewTask", (taskObj) => {
       this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: []});
-      this.nextIDIncrement++;
     });
 
     Bus.$on("taskChanged", (taskID, newTaskObj) => {
@@ -113,12 +112,20 @@ export default {
     Bus.$on("deleteTask", (taskID) => {
       this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1);
     });
+  },
+  beforeDestroy: function () {
+    Bus.$off();
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.ghost > .card {
+  opacity: .5;
+  background: red;
+}
+
 .swap-move {
   transition: transform 0.5s;
 }

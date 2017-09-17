@@ -59,8 +59,8 @@ export default {
       this.showTaskEdit = isEditing
     })
   },
-  updated: function () {
-    // jQuery(".flexWrapper").height((jQuery(window).height() - jQuery("#interfaceTop").height()) + "px")
+  beforeDestroy: function () {
+    Bus.$off();
   }
 }
 </script>
