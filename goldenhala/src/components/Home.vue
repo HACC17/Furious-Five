@@ -10,8 +10,7 @@
         .flexChild
           .columns
             .column
-              div.scrollContain
-                planner-app(:masterData="masterData")
+              planner-app(:masterData="masterData")
             transition(
               name="showTaskEditTransition",
               enter-active-class="animated slideInRight",
@@ -46,8 +45,13 @@ export default {
     }
   },
   mounted: function () {
-    // Setup Animations
+    // Setup Styling & Animations
     jQuery(".flexWrapper").height((jQuery(window).outerHeight() - (jQuery("#interfaceTop").outerHeight() + jQuery("#nav").outerHeight())) + "px")
+
+    // jQuery Event Listeners
+    jQuery(window).resize(() => {
+      jQuery(".flexWrapper").height((jQuery(window).outerHeight() - (jQuery("#interfaceTop").outerHeight() + jQuery("#nav").outerHeight())) + "px")
+    })
 
     // Bus Event Listeners
     Bus.$on("taskEditChanged", (isEditing, focusedTask) => {
@@ -81,18 +85,6 @@ export default {
   padding-bottom: 0px;
 }
 
-.scrollContain {
-  border: 1px solid red;
-  top: 0px;
-  bottom: 0px;
-  height: 100%;
-  /*max-height: 100px;*/
-  overflow: scroll;
-  text-overflow: ellipsis;
-  white-space: pre-line;
-  /*overflow:hidden;*/
-}
-
 .flexWrapper {
   display: flex;
 }
@@ -100,5 +92,8 @@ export default {
 .flexChild {
   flex: 1;
   overflow: auto;
+  padding: 10px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 </style>
