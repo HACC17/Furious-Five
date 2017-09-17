@@ -29,7 +29,8 @@ export default {
     return {
       plugins: [
         {name: "Common Break Finder", route: "commonbreak"},
-        {name: "Teacher Rater", route: "teacherRater"}
+        {name: "Eisenhower", route: "eisenhower"}
+        // {name: "Teacher Rater", route: "teacherRater"}
       ],
       tasks: [
         {name: "John", id: "100", editing: false},

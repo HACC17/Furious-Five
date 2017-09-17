@@ -93,7 +93,7 @@ export default {
       }
       this.$nextTick( () => {
         this.delayedDragging = false;
-      })
+      });
     }
   },
   mounted: function () {
