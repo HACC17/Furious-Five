@@ -3,8 +3,8 @@
 #taskEdit
   section.section
     .level: .level-left
-      .level-item: a.button.is-warning(:class="importantBtnStyle") Important
-      .level-item: a.button.is-danger(:class="urgentBtnStyle") Urgent
+      .level-item: a.button.is-warning(:class="importantBtnStyle", @click="changeTask('xor', 'labels', ['important'])") Important
+      .level-item: a.button.is-danger(:class="urgentBtnStyle", @click="changeTask('xor', 'labels', ['urgent'])") Urgent
 </template>
 
 <script>
@@ -30,8 +30,11 @@ export default {
     }
   },
   methods: {
-    taskChanged () {
-      //
+    changeTask (changeFunction, ...args) {
+      switch (changeFunction) {
+        case "xor":
+          this.task[args[0]] = _.xor(this.task[args[0]], args[1]);
+      }
     }
   },
   mounted: function () {

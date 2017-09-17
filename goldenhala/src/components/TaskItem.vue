@@ -10,12 +10,13 @@
       .level-left
         .level-item.dragHandle
           span.icon: i.fa.fa-bars
+        .level-item
+          input(type="checkbox", @change="deleteTask(task)")
         .level-item.taskNameWrapper
           if debug
             span {{ task.id + " " }}
           //- https://jsfiddle.net/jpeter06/ppyeo1tg/
           template(v-if="!task.editing")
-            input(type="checkbox", @change="deleteTask(task)")
             span {{ task.name }}
           template(v-else)
             input.input.is-fullwidth.is-small(
