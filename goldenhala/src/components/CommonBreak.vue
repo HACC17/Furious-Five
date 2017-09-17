@@ -1,9 +1,11 @@
 <template lang="pug">
-  div
-    p {{ msg }}
+  #container.columns
+    #sched1.column.grid-stack.grid-stack-6
+    #sched2.column.grid-stack.grid-stack-6
 </template>
 
 <script>
+import '../scripts/schedule.js'
 export default {
   name: 'Common-Break-Finder',
   data () {
@@ -32,5 +34,13 @@ li {
 
 a {
     color: #42b983;
+}
+
+.grid-stack {
+  margin-top: 2vh;
+}
+
+.test {
+  background-color: blue;
 }
 </style>

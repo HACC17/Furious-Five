@@ -53,36 +53,87 @@ var exampleSchedule = {
 	}
 }
 
-var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Array for pushing the schedule data for each letter day
-	letterDayLength = letterDays.length, 
-	i,
-	j,
-	classRanges = [[], [], [], [], [], []], // Array to store the ranges of the class' starting and ending time
-	sortedSchedule = [[], [], [], [], [], []]; // Final schedule data to use for printing in schedule
-
-
-function addColors () {
-	var colors = ["red", "orange", "green", "blue", "yellow", "#6699ff", "magenta", "pink", "#00ff00", "#ff3399", "#0066ff", "#ffff00", "#cc66ff", "#0033cc"];
-	var classLen = Object.keys(exampleSchedule.key).length;
-	for (var i = 0; i < classLen; i++) {
-		exampleSchedule.key[i].color = colors[i];
+var exampleSchedule2 = { 
+	"schedule": {
+		"A-Day":[{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"B-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":5},
+			{"startTime":17,"endTime":20,"classTime":60,"classKey":10},
+			{"classKey":[10,8],"conflictStart":21,"conflictEnd":22,"classTime":30},
+			{"startTime":23,"endTime":24,"classTime":30,"classKey":8},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11}],
+		"C-Day":[{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"D-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":4},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":10},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11}],
+		"E-Day":[{"startTime":13,"endTime":16,"classTime":60,"classKey":9},
+			{"startTime":25,"endTime":28,"classTime":60,"classKey":11},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":7}],
+		"F-Day":[{"startTime":1,"endTime":6,"classTime":90,"classKey":1},
+			{"startTime":9,"endTime":12,"classTime":60,"classKey":0},
+			{"startTime":13,"endTime":13,"classTime":15,"classKey":2},
+			{"startTime":14,"endTime":16,"classTime":45,"classKey":3},
+			{"startTime":17,"endTime":22,"classTime":90,"classKey":10},
+			{"startTime":29,"endTime":32,"classTime":60,"classKey":9}]
+	},
+	"key": {
+		"0": {"className":"ALGE II/TRIG H ALGEBRA II/TRIG (H)","classCode":"2331-102","teacher":"Kelly C. Smith","semester":"S1","classroom":"B202"},
+		"1": {"className":"AP CHEM AP CHEMISTRY","classCode":"3171-106","teacher":"Cullen K. T. Pang","semester":"S1","classroom":"M206"},
+		"2": {"className":"AP-10","classCode":"9521-108","teacher":"Adam P. Jenkins","semester":"S1","classroom":"M206"},
+		"3": {"className":"AP-10 EXTENDED","classCode":"9561-101","teacher":"Marguerite K. Ashford-Hirano","semester":"S1","classroom":""},
+		"4": {"className":"ASSEM 10","classCode":"9101-101","teacher":"Padraic M. C. Tune","semester":"S1","classroom":"DILL"},
+		"5": {"className":"CHAPEL 10","classCode":"9061-101","teacher":"Chaplain George W. Scott","semester":"S1","classroom":"CHAP"},
+		"6": {"className":"CLASS DEANS' EMAIL","classCode":"9610-102","teacher":"Padraic M. C. Tune","semester":"S1","classroom":""},
+		"7": {"className":"CONC ORCH II REH CONCERT ORCHESTRA II","classCode":"5601-101","teacher":"Dr. Sven J. Carlson","semester":"S1","classroom":"ORCH"},
+		"8": {"className":"CONC ORCH II VLN/VLA CONCERT ORCHESTRA II","classCode":"5611-101","teacher":"Mr. Craig J. S. Young","semester":"S1","classroom":"ORCH"},
+		"9": {"className":"ENG 2 AB ENGLISH","classCode":"0081-119","teacher":"Dr David Michael Ball","semester":"S1","classroom":"S201"},
+		"10": {"className":"ENGINEERING PROJ I &amp; II ENGINEERING PROJ I &amp; II","classCode":"3671-101","teacher":"Justin Y. Lai","semester":"S1","classroom":"G-CLC"},
+		"11": {"className":"MND CHIN III H MAND CHINESE III (H)","classCode":"1761-101","teacher":"Linette L. Char","semester":"S1","classroom":"CH-3"}
 	}
 }
 
-function formatClassData() {
-		// Loop throught each letter day
+
+var i, j;
+
+function addColors (scheduleData) {
+	var colors = ["red", "orange", "green", "blue", "yellow", "#6699ff", "magenta", "pink", "#00ff00", "#ff3399", "#0066ff", "#ffff00", "#cc66ff", "#0033cc"];
+	var classLen = Object.keys(scheduleData.key).length;
+	for (var i = 0; i < classLen; i++) {
+		scheduleData.key[i].color = colors[i];
+	}
+	return scheduleData;
+}
+
+function formatClassData(scheduleData) {
+	var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Array for pushing the schedule data for each letter day
+	letterDayLength = letterDays.length,
+	classRanges = [[], [], [], [], [], []], // Array to store the ranges of the class' starting and ending time
+	sortedSchedule = [[], [], [], [], [], []]; // Final schedule data to use for printing in schedule
+
+	// Loop throught each letter day
 	for (i = 0; i < letterDayLength; i++) {
-		var classes = exampleSchedule.schedule[letterDays[i]], // Classes of a certain letter day
+		var classes = scheduleData.schedule[letterDays[i]], // Classes of a certain letter day
 			startingTimes = _.map(classes, "startTime"), // Array containing all starting times
 			endingTimes = _.map(classes, "endTime"), // Array containing all ending times
 			classKey = _.map(classes, "classKey"); // Array containing all class keys
+
 		
 		// Loop through all the startingTimes to get ranges of class time and push class data to sortedSchedule
 		for (j = 0; j < startingTimes.length; j++) {
 			sortedSchedule[i].push({
 				startTime: startingTimes[j],
 				endTime: endingTimes[j],
-				classData: exampleSchedule.key[classKey[j]]
+				classData: scheduleData.key[classKey[j]]
 			});
 			// Class mods are the ranges of the class times
 			var classMods = _.range(startingTimes[j], endingTimes[j] + 1, 1) // Getting range of the classes (using start and end times)
@@ -120,48 +171,51 @@ function formatClassData() {
 	return sortedSchedule;
 }
 
-function addNewGridItem(options) {
-	var $grid = $(".grid-stack").data("gridstack");
+function addNewGridItem(options, grid) {
+	var $grid = $(grid).data("gridstack");
   var gridItem = $("<div class='grid-stack-item' data-gs-locked style='text-align: center; font-size: 80%; background-color: " + options.color + "'> <div class='grid-stack-item-content'>" + options.name + "\n" + options.room + "</div></div>");
   $grid.addWidget(gridItem, options.column, options.row, 1, options.blockHeight);
 }
 
-$(document).ready(function() {
-	addColors();
-	var schedData = formatClassData();
-	console.log(schedData)
-  var options = {
-    cellHeight: 30,
-    width: 6,
-    staticGrid: true,
-    disableDrag: true,
-    disableResize: true,
-    verticalMargin: 0
-  };
-  $(".grid-stack").gridstack(options)
-
-  for (i = 0; i < 6; i++) {
+function makeGrid(scheduleData, grid) {
+$(grid).gridstack({cellHeight: 30, width: 6, staticGrid: true, disableDrag: true, disableResize: true, verticalMargin: 0});
+for (i = 0; i < 6; i++) {
   	var rowNum = 0
-  	for (j = 0; j < schedData[i].length; j++) {
-  		var currentClass = schedData[i][j];
+  	for (j = 0; j < scheduleData[i].length; j++) {
+
+  		var currentClass = scheduleData[i][j];
+  		if (currentClass.startTime == undefined) {
+  			var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"];
+  			console.log(scheduleData[i][j]);
+  		}
   		// Object for configuring the grid
   		var config = {
-  			blockHeight: schedData[i][j].endTime - schedData[i][j].startTime + 1,
+  			blockHeight: scheduleData[i][j].endTime - scheduleData[i][j].startTime + 1,
   			column: i,
   			data: [],
   			row: rowNum,
-  			color: schedData[i][j].classData.color
+  			
    		}
   		rowNum += config.blockHeight;
 
   		if (currentClass.classData == ".") {
   			config.name = "Break";
   			config.room = "";
+  			config.color =  "white";
   		} else {
-  			config.name = schedData[i][j].classData.className;
-  			config.room = schedData[i][j].classData.classroom;
+  			config.name = scheduleData[i][j].classData.className;
+  			config.room = scheduleData[i][j].classData.classroom;
+  			config.color =  scheduleData[i][j].classData.color;
   		}
-  		addNewGridItem(config);
+  		addNewGridItem(config, grid);
   	}
   }
+}
+
+$(document).ready(function() {
+	var schedData = formatClassData(addColors(exampleSchedule));
+	var schedData2 = formatClassData(addColors(exampleSchedule2));
+  makeGrid(schedData, "#sched1");
+  // makeGrid(schedData2, "#sched2");
+  
 });

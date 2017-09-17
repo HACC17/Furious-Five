@@ -1,6 +1,6 @@
 <template lang="pug">
 #scheduleApp
-  .grid-stack.grid-stack-6
+  #sched1.grid-stack.grid-stack-6
 
 </div>
 
