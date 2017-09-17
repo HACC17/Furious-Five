@@ -60,6 +60,16 @@ var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Arra
 	classRanges = [[], [], [], [], [], []], // Array to store the ranges of the class' starting and ending time
 	sortedSchedule = [[], [], [], [], [], []]; // Final schedule data to use for printing in schedule
 
+
+function addColors () {
+	// var colors = ["red", "orange", "green", "blue", "yellow" "indigo", "magenta", "pink"];
+	var classLen = Object.keys(exampleSchedule.key).length - 1;
+	for (var i = 0; i < classLen; i++) {
+		// exampleSchedule.key[i].color = colors[i];
+	}
+}
+
+
 function formatClassData() {
 		// Loop throught each letter day
 	for (i = 0; i < letterDayLength; i++) {
@@ -112,15 +122,15 @@ function formatClassData() {
 }
 
 function addNewGridItem(options) {
-	console.log(options);
 	var $grid = $(".grid-stack").data("gridstack");
   var gridItem = $("<div class='grid-stack-item' data-gs-locked style='background-color: red'> <div class='grid-stack-item-content'>" + options.data[0] + "</div></div>");
-  console.log(options.column, options.row);
   $grid.addWidget(gridItem, options.column, options.row, 1, options.blockHeight);
 }
 
 $(document).ready(function() {
+	addColors();
 	var schedData = formatClassData();
+	console.log(schedData)
   var options = {
     cellHeight: 30,
     width: 6,
@@ -130,7 +140,7 @@ $(document).ready(function() {
     verticalMargin: 0
   };
   $(".grid-stack").gridstack(options)
-  $("#addNew").on("click", addNewGridItem);
+
   for (i = 0; i < 6; i++) {
   	var rowNum = 0
   	for (j = 0; j < schedData[i].length; j++) {
@@ -142,9 +152,8 @@ $(document).ready(function() {
   			data: [],
   			row: rowNum
    		}
-
   		rowNum += config.blockHeight;
-  		// Check if break
+
   		if (currentClass.classData == ".") {
   			config.data.push("Break");
   		} else {

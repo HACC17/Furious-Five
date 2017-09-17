@@ -1,20 +1,7 @@
 <template lang="pug">
 #scheduleApp
-  #controls
-    a#addNew.button.is-primary Add block
   .grid-stack.grid-stack-6
-    //- .grid-stack-item(data-gs-x="0" data-gs-y="0" data-gs-width="1" data-gs-height="4" data-gs-locked)
-    //-   .grid-stack-item-content Test1
-    //- .grid-stack-item(data-gs-x="1" data-gs-y="0" data-gs-width="1" data-gs-height="1" data-gs-locked)
-    //-   .grid-stack-item-content Test2
-    //- .grid-stack-item(data-gs-x="2" data-gs-y="0" data-gs-width="1" data-gs-height="1" data-gs-locked)
-    //-   .grid-stack-item-content Test3
-    //- .grid-stack-item(data-gs-x="3" data-gs-y="0" data-gs-width="1" data-gs-height="1" data-gs-locked)
-    //-   .grid-stack-item-content Test4
-    //- .grid-stack-item(data-gs-x="4" data-gs-y="0" data-gs-width="1" data-gs-height="1" data-gs-locked)
-    //-   .grid-stack-item-content Test5
-    //- .grid-stack-item(data-gs-x="5" data-gs-y="0" data-gs-width="1" data-gs-height="1" data-gs-locked)
-    //-   .grid-stack-item-content Test6
+
 </div>
 
 
