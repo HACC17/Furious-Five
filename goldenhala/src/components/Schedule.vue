@@ -9,6 +9,7 @@
 
 <script>
 /* eslint-disable*/
+import jQuery from "jQuery"
 import { ScheduleMaker } from "../scripts-modular/schedule.js"
 
 export default {
@@ -18,11 +19,14 @@ export default {
       msg: "i am mr schedule"
     }
   },
+  beforeMount: function () {
+    jQuery("#loadingMessage").show();
+    jQuery(document).ready(function () {
+      jQuery("#loadingMessage").hide();
+    });
+  },
   mounted: function () {
-    try {
-      console.log("bob")
-      ScheduleMaker.makeSchedule()
-    } catch (e) { return; }
+    ScheduleMaker.makeSchedule()
   }
 }
 </script>
