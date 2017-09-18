@@ -72,6 +72,10 @@ export default {
   -o-animation-duration: 0.3s;
   animation-duration: 0.3s;
 }
+
+.card-content {
+  padding: 0.5rem;
+}
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
