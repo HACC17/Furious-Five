@@ -6,6 +6,8 @@
       .level-item: a.button.is-warning(:class="importantBtnStyle", @click="changeTask('xor', 'labels', ['important'])") Important
       .level-item: a.button.is-danger(:class="urgentBtnStyle", @click="changeTask('xor', 'labels', ['urgent'])") Urgent
     textarea.textarea(v-model="task.notes", @keyup="changed", @change="changed")
+  section.section
+    button.button.is-primary(@click="changed(); stopEditing();") Save
 </template>
 
 <script>
@@ -33,6 +35,10 @@ export default {
   methods: {
     changed () {
       Bus.$emit("updateTasksRequest");
+    },
+    stopEditing () {
+      this.task.editing = false;
+      Bus.$emit("setPrevEditingTaskID", (this.task.editing) ? this.task.id : null);
     },
     changeTask (changeFunction, ...args) {
       switch (changeFunction) {
