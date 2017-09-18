@@ -16,6 +16,8 @@
               .level-item: span &nbsp;
               .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
               .level-item: span {{ task.name }}
+            .level-right
+              .level-item: span.is-small {{ task.class }}
         //- .column
         //-   .card(v-for="(task, index) in uniTasks"): .card-content: .level
         //-     .level-left: .level-item: span {{ task.name }}
@@ -30,6 +32,8 @@
               .level-item: span &nbsp;
               .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
               .level-item: span {{ task.name }}
+            .level-right
+              .level-item: span.is-small {{ task.class }}
   .flexChild
     .column
       if debug
@@ -41,6 +45,8 @@
               .level-item: span &nbsp;
               .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
               .level-item: span {{ task.name }}
+            .level-right
+              .level-item: span.is-small {{ task.class }}
     .column
       if debug
         span 4
@@ -51,6 +57,8 @@
               .level-item: span &nbsp;
               .level-item: input.deleteTaskCheckbox(type="checkbox", @click="deleteTask(task)")
               .level-item: span {{ task.name }}
+            .level-right
+              .level-item: span.is-small {{ task.class }}
 </template>
 
 <script>

@@ -5,7 +5,7 @@
   @dblclick="onEdit"
 )
   //-  @dblclick.stop="openSidebar(task)"
-  .card-content: .level
+  .card-content: .level(style="overflow: hidden")
     .level-left
       .level-item.dragHandle
         span.icon: i.fa.fa-bars

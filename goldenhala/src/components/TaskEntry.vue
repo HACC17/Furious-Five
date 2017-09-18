@@ -50,7 +50,6 @@ export default {
   methods: {
     addNewTask () {
       Bus.$emit("addNewTask", {origEntry: this.textEntry, class: this.selectedClass});
-      //Bus.$emit("addNewTask", {origEntry: this.textEntry});
       this.textEntry = "";
     },
     analyzeEntry () {
