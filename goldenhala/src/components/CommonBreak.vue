@@ -33,17 +33,26 @@ ul {
 }
 
 li {
-    display: inline-block;
-   margin: 0 10px;
+  display: inline-block;
+  margin: 0 10px;
 }
 
 a {
-    color: #42b983;
+  color: #42b983;
 }
 
 #container {
   margin-top: 1vh;
-  overflow: none;
+  display: flex;
+}
+
+#container .column {
+  flex: 1;
+  border: 1px solid #000;
+  padding: 10px;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #compareSched {

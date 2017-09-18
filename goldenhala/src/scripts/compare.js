@@ -281,7 +281,7 @@ function checkZero(num) {
 	$("#displayBreaks").html(commonBreaks);
 }
 
-$(document).ready(function() {
+$("button#dfdsfdf").ready(function() {
 	$("#compareSched").on("click", function() {
 		var similarData = compareSched(exampleSchedule, exampleSchedule2);
 		displayCommon(similarData);
