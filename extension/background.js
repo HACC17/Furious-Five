@@ -4,15 +4,26 @@
 // If logged in > automatically open/close window in background and get student schedule info
 // If not logged in > change to activetab/redirect to page and prompt user login, then get schedule info
 */
-chrome.browserAction.onClicked.addListener(function(tabs.Tab tab) {
-    chrome.windows.create({ 
-        url: "https://mybackpack.punahou.edu/SeniorApps/studentParent/schedule.faces?selectedMenuId=true",
-        width:  430,
-        height: 150,
-        top:    top_popup,
-        left:   left_popup,
-        active: false
-    }, function(win) {
-        chrome.windows.update(tab.windowId, { focused: true });
-    });
+chrome.browserAction.onClicked.addListener(function( tab) {
+    // once clicked, open window
+    var myWindow = window.open("https://mybackpack.punahou.edu/SeniorApps/studentParent/schedule.faces", "_blank", "width=500,height=400");
+    // check if user is logged in or not
+    var elem = document.getElementById("form");
+    // if user is not logged in, leave window open
+    if (elem !== "undefined") {
+        continue;
+    }
+    // if user is logged in, close window
+    else {
+        n = 1;
+        while(n == 1){
+            if (document.readyState === "complete") {
+                myWindow.close();
+                n = 0;
+            }
+            else {
+                continue;
+            }
+        }
+    }
 });

@@ -3,14 +3,15 @@
 	"name": "Golden Hala",
 	"version": "1.0",
 	"description": "Prompts user to open MyBackpack and retrieves schedule information.",
+	"icons": { "128" : "golden hala.png" },
 	"browser_action": {
-          "default_icon": { "128" : "golden hala.png" },
-          "default_title": "Golden Hala"  
+          "default_title": "Golden Hala",
+          "default_popup": "popup.html"  
     },
 	"content_scripts": [
     	{
 	      "matches": ["https://mybackpack.punahou.edu/SeniorApps/studentParent/schedule.faces"],
-	      "js": ["jquery-3.2.1.min.js", "lodash.core.min.js", "script.js", "background.js"]
+	      "js": ["jquery-3.2.1.min.js", "lodash.core.min.js", "script.js"]
 	    }
 	],
 	"permissions": [
