@@ -10,7 +10,7 @@
       .level-item.dragHandle
         span.icon: i.fa.fa-bars
       .level-item
-        input(type="checkbox", @change="deleteTask(task)")
+        input(type="checkbox", @change="deleteTask")
       .level-item.taskNameWrapper
         if debug
           span {{ task.id + " " }}
@@ -37,7 +37,7 @@ import { Bus } from "./Bus.js"
 
 export default {
   name: "Task",
-  props: ["task"],
+  props: ["task", "plannerIndex"],
   data () {
     return {
       //
@@ -54,8 +54,8 @@ export default {
       this.task.editing = !this.task.editing;
       Bus.$emit("setPrevEditingTaskID", (this.task.editing) ? this.task.id : null);
     },
-    deleteTask (task) {
-      Bus.$emit("deleteTask", task.id);
+    deleteTask () {
+      this.$emit("deleteTask", this.plannerIndex);
     }
   },
   beforeDestroy: function () {

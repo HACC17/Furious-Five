@@ -14,7 +14,8 @@
         v-for="(task, index) in tasks",
         :task="task",
         :key="task.id",
-        :id="'task-' + task.id"
+        :plannerIndex="index",
+        @deleteTask="deleteTask"
     )
     //-     transition(
     //-       :appear="animations",
@@ -77,6 +78,10 @@ export default {
   methods: {
     refreshSidebar () {
       Bus.$emit("taskEditChanged", this.isEditing, _.filter(this.tasks, "editing")[0]);
+    },
+    deleteTask (plannerIndex) {
+      this.tasks.splice(plannerIndex, 1);
+      console.log(this.tasks);
     }
   },
   watch: {
@@ -121,10 +126,12 @@ export default {
       this.prevEditingTaskID = taskID;
       this.refreshSidebar();
     });
-
-    Bus.$on("deleteTask", (taskID) => {
-      this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1);
-    });
+  },
+  updated: function () {
+    // Bus.$on("deleteTask", (plannerIndex) => {
+    //   this.tasks.splice(plannerIndex, 1);
+    //   console.log(this.tasks)
+    // });
   },
   beforeDestroy: function () {
     _.map(this.tasks, function (t) {
