@@ -1,5 +1,5 @@
 <template lang="pug">
-- var debug = false
+- var debug = true
 #plannerApp
   draggable(
     element="ul",
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     nextIDIncrement () {
-      return _.max(_.map(this.tasks, "id")) + 1;
+      return (_.max(_.map(this.tasks, "id")) + 1) || 1;
     },
     isEditing () {
       if (this.prevEditingTaskID) {
@@ -97,20 +97,22 @@ export default {
     }
   },
   mounted: function () {
-    // Enable Animations
+    // Enable & Reset Animations
     this.animations = true;
+    _.map(this.tasks, function (t) {
+      t.editing = false;
+    });
 
     // Bus Event Listeners
-
     // From TaskEntry
     Bus.$on("addNewTask", (taskObj) => {
       this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: []});
     });
 
     // From TaskEdit
-    // Bus.$on("taskChanged", (taskID, newTaskObj) => {
-    //   this.tasks.splice(_.findIndex(this.tasks, {id: taskID}), 1, newTaskObj);
-    // });
+    Bus.$on("updateTasksRequest", () => {
+      Bus.$emit("updateAllTasks", this.tasks);
+    });
 
     Bus.$on("setPrevEditingTaskID", (taskID) => {
       _.map(this.tasks, function (t) {

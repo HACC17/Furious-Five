@@ -19,10 +19,12 @@
           span {{ task.name }}
         template(v-else)
           input.input.is-fullwidth.is-small(
+            id="taskNameEditInput",
             type="text",
             v-model="task.name",
-            @blur="task.editing = false;",
-            @keyup.enter="task.editing = false;"
+            @dblclick.stop="",
+            @blur="changed(); onEdit();",
+            @keyup.enter="blur"
           )
 </template>
 
@@ -30,6 +32,7 @@
 /* eslint quotes: ["error", "double"] */
 /* eslint-disable */
 import _ from "lodash"
+import jQuery from "jQuery"
 import { Bus } from "./Bus.js"
 
 export default {
@@ -41,15 +44,18 @@ export default {
     }
   },
   methods: {
+    blur () {
+      jQuery("#taskNameEditInput").blur();
+    },
+    changed () {
+      Bus.$emit("updateTasksRequest");
+    },
     onEdit () {
       this.task.editing = !this.task.editing;
       Bus.$emit("setPrevEditingTaskID", (this.task.editing) ? this.task.id : null);
     },
     deleteTask (task) {
       Bus.$emit("deleteTask", task.id);
-    },
-    openSidebar () {
-      //
     }
   },
   beforeDestroy: function () {

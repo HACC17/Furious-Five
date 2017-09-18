@@ -35,6 +35,7 @@ export default {
         case "xor":
           this.task[args[0]] = _.xor(this.task[args[0]], args[1]);
       }
+      Bus.$emit("updateTasksRequest");
     }
   }
 }

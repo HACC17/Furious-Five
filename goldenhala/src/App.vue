@@ -58,11 +58,20 @@ export default {
       localStorage.setItem("tasks", JSON.stringify(this.tasks))
     }
   },
-  mounted: function () {
-    // Bus Event Listeners
-    Bus.$on("updateAllTasks", (newTasks) => {
+  methods: {
+    onUpdateAllTasks (newTasks) {
       this.tasks = newTasks
-    })
+
+      // Workaround because Vue.js cannot detect when an array/object's element is changed
+      localStorage.setItem("tasks", JSON.stringify(this.tasks))
+    }
+  },
+  mounted: function () {
+    // Bus Event Listeners - Must Put in Updated Lifecycle Hook too, or else Bus.$off() will remove it when router view changed
+    Bus.$on("updateAllTasks", this.onUpdateAllTasks)
+  },
+  updated: function () {
+    Bus.$on("updateAllTasks", this.onUpdateAllTasks)
   },
   beforeDestroy: function () {
     Bus.$off()
