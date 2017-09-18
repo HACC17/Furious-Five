@@ -12,7 +12,10 @@
       .columns
         .column
           .card(v-for="(task, index) in uiTasks"): .card-content: .level
-            .level-left: .level-item: span {{ task.name }}
+            .level-left
+              .level-item: span &nbsp;
+              .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
+              .level-item: span {{ task.name }}
         //- .column
         //-   .card(v-for="(task, index) in uniTasks"): .card-content: .level
         //-     .level-left: .level-item: span {{ task.name }}
@@ -23,7 +26,10 @@
       .columns
         .column
           .card(v-for="(task, index) in uniTasks"): .card-content: .level
-            .level-left: .level-item: span {{ task.name }}
+            .level-left
+              .level-item: span &nbsp;
+              .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
+              .level-item: span {{ task.name }}
   .flexChild
     .column
       if debug
@@ -31,14 +37,20 @@
       .columns
         .column
           .card(v-for="(task, index) in nuiTasks"): .card-content: .level
-            .level-left: .level-item: span {{ task.name }}
+            .level-left
+              .level-item: span &nbsp;
+              .level-item: input.deleteTaskCheckbox(type="checkbox", @change="deleteTask(task)")
+              .level-item: span {{ task.name }}
     .column
       if debug
         span 4
       .columns
         .column
           .card(v-for="(task, index) in nuniTasks"): .card-content: .level
-            .level-left: .level-item: span {{ task.name }}
+            .level-left
+              .level-item: span &nbsp;
+              .level-item: input.deleteTaskCheckbox(type="checkbox", @click="deleteTask(task)")
+              .level-item: span {{ task.name }}
 </template>
 
 <script>
@@ -81,6 +93,9 @@ export default {
     // Future design integration
     splitArray (filteredTasks, whichHalf) {
       (whichHalf === 1) ? filteredTasks.slice(0, Math.ceil(filteredTasks.length / 2)) : filteredTasks.slice(Math.ceil(filteredTasks.length / 2), filteredTasks.length);
+    },
+    deleteTask (task) {
+      this.masterData.tasks.splice(_.findIndex(this.masterData.tasks, {id: task.id}), 1);
     }
   },
   mounted: function () {
@@ -90,6 +105,12 @@ export default {
     // jQuery Event Listeners
     jQuery(window).resize(() => {
       jQuery(".flexWrapper").height((jQuery(window).outerHeight() - (jQuery("#nav").outerHeight())) + "px");
+    });
+  },
+  updated: function () {
+    // Workaround for the glitch where the checkbox stays checked
+    jQuery(".deleteTaskCheckbox").each(function () {
+      jQuery(this).prop("checked", false);
     });
   }
 }
