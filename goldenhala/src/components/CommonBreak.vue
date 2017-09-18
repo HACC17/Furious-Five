@@ -42,16 +42,8 @@ a {
 }
 
 #container {
-  margin-top: 2vh;
-}
-
-.test {
-  background-color: blue;
-}
-
-#container div {
-  border: 1px solid #000;
-  width: 100%;
+  margin-top: 1vh;
+  overflow: none;
 }
 
 #compareSched {

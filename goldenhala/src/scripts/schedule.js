@@ -102,11 +102,10 @@ var exampleSchedule2 = {
 	}
 }
 
-
 var i, j;
 
 function addColors (scheduleData) {
-	var colors = ["FF4E50", "FC913A", "F9D423", "EDE574", "E1F5C4", "FC9D9A", "F9CDAD", "C8C8A9", "83AF9B", "69D2E7", "A7DBD8", "E0E4CC", "F38630", "F3FFCC", "E9FCD9", "DEFAE6", "D4F7F2", "C9F4FF", "9CC4E4", "E9F2F9", "FFF5A6", "F9E17D", "FFC6E2", "E4A2F2", "BED7FF", "F7F4AC", "A8F072"];
+	var colors = ["#FF4E50", "#FC913A", "#F9D423", "#EDE574", "#E1F5C4", "#FC9D9A", "#F9CDAD", "#C8C8A9", "#83AF9B", "#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630", "#F3FFCC", "#E9FCD9", "#DEFAE6", "#D4F7F2", "#C9F4FF", "#9CC4E4", "#E9F2F9", "#FFF5A6", "#F9E17D", "#FFC6E2", "#E4A2F2", "#BED7FF", "#F7F4AC", "#A8F072"];
 	var classLen = Object.keys(scheduleData.key).length;
 	for (var i = 0; i < classLen; i++) {
 		scheduleData.key[i].color = colors[i];
@@ -136,7 +135,6 @@ function formatClassData (scheduleData) {
 					startTime: conflictClass.conflictStart,
 					endTime: conflictClass.conflictEnd,
 					classData: [scheduleData.key[conflictClass.classKey[0]], scheduleData.key[conflictClass.classKey[1]]]
-					// classData: [scheduleData.key[conflictClass.classKey[0]], scheduleData.key[conflictClass.classKey[1]]]
 				});
 			} else {
 				sortedSchedule[i].push({
@@ -178,7 +176,6 @@ function formatClassData (scheduleData) {
 		// Sort the final schedule data by starting time
 		sortedSchedule[i] = _.sortBy(sortedSchedule[i], "startTime");
 	}	
-	console.log(sortedSchedule);
 	return sortedSchedule;
 }
 
@@ -191,37 +188,35 @@ function addNewGridItem (options, grid) {
 function makeGrid (scheduleData, grid) {
 	$(grid).gridstack({cellHeight: 30, width: 6, staticGrid: true, disableDrag: true, disableResize: true, verticalMargin: 0});
 	for (i = 0; i < 6; i++) {
-			var rowNum = 0;
-	  	for (j = 0; j < scheduleData[i].length; j++) {
-	  		var currentClass = scheduleData[i][j];
-	  		// Object for configuring the grid
-	  		var config = {
-	  			blockHeight: scheduleData[i][j].endTime - scheduleData[i][j].startTime + 1,
-	  			column: i,
-	  			data: [],
-	  			row: rowNum,
-	  			
-	   		}
-	  		rowNum += config.blockHeight;
+		var rowNum = 0;
+  	for (j = 0; j < scheduleData[i].length; j++) {
+  		var currentClass = scheduleData[i][j];
+  		// Object for configuring the grid
+  		var config = {
+  			blockHeight: scheduleData[i][j].endTime - scheduleData[i][j].startTime + 1,
+  			column: i,
+  			data: [],
+  			row: rowNum
+   		}
+  		rowNum += config.blockHeight;
 
-	  		if (currentClass.classData == ".") {
-	  			config.name = "Break";
-	  			config.room = "";
-	  			config.color =  "white";
-	  		} else {
-	  			if (currentClass.classData.length == 2) {
-	  				config.name = "Conflict with " + currentClass.classData[0].className + " and " + currentClass.classData[1].className;
-	  				config.room = "";
-	  				// config.room = currentClass.classData[0].classroom + " and " + currentClass.classData[1].className;
-	  				config.color = "red";
-	  			} else {
-	  				config.name = currentClass.classData.className;
-	  				config.room = currentClass.classData.classroom;
-	  				config.color = currentClass.classData.color;
-	  			}
-	  		}
-	  		addNewGridItem(config, grid);
-	  	}
+  		if (currentClass.classData == ".") {
+  			config.name = "Break";
+  			config.room = "";
+  			config.color =  "white";
+  		} else {
+  			if (currentClass.classData.length == 2) {
+  				config.name = "Conflict with " + currentClass.classData[0].className + " and " + currentClass.classData[1].className;
+  				config.room = "";
+  				config.color = "red";
+  			} else {
+  				config.name = currentClass.classData.className;
+  				config.room = currentClass.classData.classroom;
+  				config.color = currentClass.classData.color;
+  			}
+  		}
+  		addNewGridItem(config, grid);
+		}
 	}
 }
 

@@ -236,8 +236,6 @@ function compareSched (scheduleData1, scheduleData2) {
 		var sharedClassObj = _.filter(scheduleData1.key, {"classCode": sharedClassCodes[i]});
 		sharedClass.push(sharedClassObj[0]);
 	}
-		
-	console.log({sharedClass: sharedClass, sharedBreak: similar});
 
 	return {sharedClass: sharedClass, sharedBreak: similar};
 }
@@ -252,7 +250,6 @@ function displayCommon (sharedData) {
 		commonBreaks = "Shared Breaks: ";
 
 	for (i = 0; i < classLength; i++) {
-		console.log(sharedData.sharedClass[i].className);
 		if (i === classLength - 1) {
 			commonClasses += sharedData.sharedClass[i].className + " ";
 		} else {
@@ -280,7 +277,6 @@ function checkZero(num) {
 			}
 		}
 	}
-	console.log(commonClasses)
 	$("#displayClasses").html(commonClasses);
 	$("#displayBreaks").html(commonBreaks);
 }
