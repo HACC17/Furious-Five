@@ -1,6 +1,6 @@
 <template lang="pug">
   div#app
-    #loadingMessage.modal.is-active
+    #loadingMessage.modal(:class="{'is-active': ifHomeRoute}")
       .modal-background
       .modal-card
         .modal-card-body.has-text-centered
@@ -60,6 +60,9 @@ export default {
     }
   },
   computed: {
+    ifHomeRoute () {
+      return this.$route.path === "/"
+    },
     masterData () {
       return {
         tasks: this.tasks,
