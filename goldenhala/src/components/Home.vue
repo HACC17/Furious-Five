@@ -91,9 +91,9 @@ export default {
 
 .flexChild {
   flex: 1;
-  overflow: auto;
   padding: 10px;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>
