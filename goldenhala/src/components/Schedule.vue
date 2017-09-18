@@ -22,7 +22,8 @@ export default {
   beforeMount: function () {
     jQuery("#loadingMessage").show();
     jQuery(document).ready(function () {
-      jQuery("#loadingMessage").hide();
+      // jQuery("#loadingMessage").removeClass("is-active");
+      jQuery("#loadingMessage").remove("div.modal.is-active");
     });
   },
   mounted: function () {

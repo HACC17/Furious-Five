@@ -1,5 +1,10 @@
 <template lang="pug">
   div#app
+    #loadingMessage.modal.is-active
+      .modal-background
+      .modal-card
+        .modal-card-body.has-text-centered
+          h1.title Loading...
     #nav.nav.has-shadow: .container
       .container.navbar
         .navbar-brand
@@ -13,7 +18,8 @@
           .navbar-start
             .navbar-item(v-for="item in plugins")
               router-link(:to="item.route") {{ item.name }}
-            .navbar-item: span#loadingMessage Loading...
+            //- .navbar-item#loadingMessage
+            //-   span Loading...&nbsp;
           .navbar-end
               //- .navbar-item: router-link(to="help"): i.fa.fa-question-circle
               .navbar-item: router-link(to="settings"): i.fa.fa-cog
@@ -39,8 +45,8 @@ export default {
   data () {
     return {
       plugins: [
-        {name: "Common Break Finder", route: "commonbreak"},
-        {name: "Eisenhower", route: "eisenhower"}
+        {name: "Eisenhower", route: "eisenhower"},
+        {name: "Common Break Finder", route: "commonbreak"}
         // {name: "Teacher Rater", route: "teacherRater"}
       ],
       tasks: JSON.parse(localStorage.getItem("tasks")) || defaultTasks,
