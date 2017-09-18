@@ -232,7 +232,6 @@ function masterScheduleMakerFunction () {
     var schedData2 = formatClassData(addColors(exampleSchedule2));
     makeGrid(schedData, "#sched1");
     makeGrid(schedData2, "#sched2");
-    return 1;
   // }
 }
 
