@@ -1,5 +1,6 @@
 <template lang="pug">
   #commonBreak
+
     a#compareSched.button.is-primary Compare Schedules
     #displayClasses
     #displayBreaks
@@ -9,7 +10,8 @@
 </template>
 
 <script>
-import '../scripts/schedule.js'
+/* eslint-disable */
+import { ScheduleMaker } from "../scripts-modular/schedule.js"
 import '../scripts/compare.js'
 export default {
   name: 'Common-Break-Finder',
@@ -17,6 +19,12 @@ export default {
     return {
       msg: 'i ma bob'
     }
+  },
+  mounted: function () {
+    try {
+      console.log("bob")
+      ScheduleMaker.makeSchedule()
+    } catch (e) { return; }
   }
 }
 </script>
@@ -33,25 +41,26 @@ ul {
 }
 
 li {
-    display: inline-block;
-   margin: 0 10px;
+  display: inline-block;
+  margin: 0 10px;
 }
 
 a {
-    color: #42b983;
+  color: #42b983;
 }
 
 #container {
-  margin-top: 2vh;
+  margin-top: 1vh;
+  display: flex;
 }
 
-.test {
-  background-color: blue;
-}
-
-#container div {
+#container .column {
+  flex: 1;
   border: 1px solid #000;
-  width: 100%;
+  padding: 10px;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #compareSched {

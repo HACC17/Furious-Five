@@ -222,10 +222,8 @@ function compareSched (scheduleData1, scheduleData2) {
 
 		for (var k = 0; k < startTimeLength; k++) {
 			// Get the range of the start time to endtime of all classes and add to temp array
-			var range = _.range(_.map(schedData1, "startTime")[k], _.map(schedData1, "endTime")[k] + 1, 1); 
-			var range2 = _.range(_.map(schedData2, "startTime")[k], _.map(schedData2, "endTime")[k] + 1, 1);
-			temp1 =  _.concat(temp1, range);
-			temp2 = _.concat(temp2, range2);
+			temp1 =  _.concat(temp1, _.range(_.map(schedData1, "startTime")[k], _.map(schedData1, "endTime")[k] + 1, 1));
+			temp2 = _.concat(temp2, _.range(_.map(schedData2, "startTime")[k], _.map(schedData2, "endTime")[k] + 1, 1));
 		}
 
 		// Find the similarities by finding where the breaks align
@@ -236,8 +234,6 @@ function compareSched (scheduleData1, scheduleData2) {
 		var sharedClassObj = _.filter(scheduleData1.key, {"classCode": sharedClassCodes[i]});
 		sharedClass.push(sharedClassObj[0]);
 	}
-		
-	console.log({sharedClass: sharedClass, sharedBreak: similar});
 
 	return {sharedClass: sharedClass, sharedBreak: similar};
 }
@@ -252,7 +248,6 @@ function displayCommon (sharedData) {
 		commonBreaks = "Shared Breaks: ";
 
 	for (i = 0; i < classLength; i++) {
-		console.log(sharedData.sharedClass[i].className);
 		if (i === classLength - 1) {
 			commonClasses += sharedData.sharedClass[i].className + " ";
 		} else {
@@ -280,12 +275,11 @@ function checkZero(num) {
 			}
 		}
 	}
-	console.log(commonClasses)
 	$("#displayClasses").html(commonClasses);
 	$("#displayBreaks").html(commonBreaks);
 }
 
-$(document).ready(function() {
+$("button#dfdsfdf").ready(function() {
 	$("#compareSched").on("click", function() {
 		var similarData = compareSched(exampleSchedule, exampleSchedule2);
 		displayCommon(similarData);

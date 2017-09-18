@@ -1,6 +1,9 @@
 <template lang="pug">
 - var debug = false
 #taskEdit
+  p(style="margin: 10px")
+    strong Task:&nbsp;
+    span {{ task.name }}
   section.section
     .level: .level-left
       .level-item: a.button.is-warning(:class="importantBtnStyle", @click="changeTask('xor', 'labels', ['important'])") Important

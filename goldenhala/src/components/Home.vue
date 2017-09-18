@@ -72,6 +72,10 @@ export default {
   -o-animation-duration: 0.3s;
   animation-duration: 0.3s;
 }
+
+.card-content {
+  padding: 0.5rem;
+}
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -91,9 +95,9 @@ export default {
 
 .flexChild {
   flex: 1;
-  overflow: auto;
   padding: 10px;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

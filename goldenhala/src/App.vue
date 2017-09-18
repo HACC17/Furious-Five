@@ -1,5 +1,10 @@
 <template lang="pug">
   div#app
+    #loadingMessage.modal(:class="{'is-active': ifHomeRoute}")
+      .modal-background
+      .modal-card
+        .modal-card-body.has-text-centered
+          h1.title Loading...
     #nav.nav.has-shadow: .container
       .container.navbar
         .navbar-brand
@@ -13,10 +18,12 @@
           .navbar-start
             .navbar-item(v-for="item in plugins")
               router-link(:to="item.route") {{ item.name }}
+            //- .navbar-item#loadingMessage
+            //-   span Loading...&nbsp;
           .navbar-end
-              .navbar-item: router-link(to="help"): i.fa.fa-question-circle
+              //- .navbar-item: router-link(to="help"): i.fa.fa-question-circle
               .navbar-item: router-link(to="settings"): i.fa.fa-cog
-              .navbar-item: router-link(to="logout"): i.fa.fa-sign-out
+              //- .navbar-item: router-link(to="logout"): i.fa.fa-sign-out
     //- section.section
     router-view(:masterData="masterData")
 </template>
@@ -24,17 +31,25 @@
 <script>
 /* eslint quotes: ["error", "double"] */
 import { Bus } from "@/components/Bus.js"
+const defaultTasks = [
+  {name: "Add a new task in the task entry bar above.", id: 1, editing: false, labels: [], tags: [], class: "", notes: ""},
+  {name: "Double click me to edit me.", id: 2, editing: false, labels: [], tags: [], class: "", notes: ""},
+  {name: "You can add labels. For example, I am important.", id: 3, editing: false, labels: ["important"], tags: [], class: "", notes: ""},
+  {name: "I am urgent.", id: 4, editing: false, labels: ["urgent"], tags: [], class: "", notes: ""},
+  {name: "I am both.", id: 5, editing: false, labels: ["important", "urgent"], tags: [], class: "", notes: ""},
+  {name: "I have some notes you might want to read.", id: 6, editing: false, labels: [], tags: [], class: "", notes: "You can click Eisenhower at the top of this page to see the important/urgent tasks in a grid format."}
+]
 
 export default {
   name: "App",
   data () {
     return {
       plugins: [
-        {name: "Common Break Finder", route: "commonbreak"},
-        {name: "Eisenhower", route: "eisenhower"}
+        {name: "Eisenhower", route: "eisenhower"},
+        {name: "Common Break Finder", route: "commonbreak"}
         // {name: "Teacher Rater", route: "teacherRater"}
       ],
-      tasks: JSON.parse(localStorage.getItem("tasks")),
+      tasks: JSON.parse(localStorage.getItem("tasks")) || defaultTasks,
       // tasks: [
       //   {name: "John", id: 100, editing: false, labels: ["important"]},
       //   {name: "Joao", id: 200, editing: false, labels: ["urgent"]},
@@ -45,6 +60,9 @@ export default {
     }
   },
   computed: {
+    ifHomeRoute () {
+      return this.$route.path === "/"
+    },
     masterData () {
       return {
         tasks: this.tasks,
@@ -66,7 +84,14 @@ export default {
       localStorage.setItem("tasks", JSON.stringify(this.tasks))
     },
     onResetAllData () {
-      this.onUpdateAllTasks([])
+      this.onUpdateAllTasks([
+        {name: "Add a new task in the task entry bar above.", id: 1, editing: false, labels: [], tags: [], class: "", notes: ""},
+        {name: "Double click me to edit me.", id: 2, editing: false, labels: [], tags: [], class: "", notes: ""},
+        {name: "You can add labels. For example, I am important.", id: 3, editing: false, labels: ["important"], tags: [], class: "", notes: ""},
+        {name: "I am urgent.", id: 4, editing: false, labels: ["urgent"], tags: [], class: "", notes: ""},
+        {name: "I am both.", id: 5, editing: false, labels: ["important", "urgent"], tags: [], class: "", notes: ""},
+        {name: "I have some notes you might want to read.", id: 6, editing: false, labels: [], tags: [], class: "", notes: "You can click Eisenhower at the top of this page to see the important/urgent tasks in a grid format."}
+      ])
     }
   },
   mounted: function () {
