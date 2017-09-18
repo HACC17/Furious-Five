@@ -1,11 +1,16 @@
 <template lang="pug">
-  #container.columns
-    #sched1.column.grid-stack.grid-stack-6
-    #sched2.column.grid-stack.grid-stack-6
+  #commonBreak
+    a#compareSched.button.is-primary Compare Schedules
+    #displayClasses
+    #displayBreaks
+    #container.columns
+      #sched1.column.grid-stack.grid-stack-6
+      #sched2.column.grid-stack.grid-stack-6
 </template>
 
 <script>
 import '../scripts/schedule.js'
+import '../scripts/compare.js'
 export default {
   name: 'Common-Break-Finder',
   data () {
@@ -36,11 +41,21 @@ a {
     color: #42b983;
 }
 
-.grid-stack {
+#container {
   margin-top: 2vh;
 }
 
 .test {
   background-color: blue;
+}
+
+#container div {
+  border: 1px solid #000;
+  width: 100%;
+}
+
+#compareSched {
+  margin-top: 2vh;
+  margin-left: 2vh;
 }
 </style>

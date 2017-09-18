@@ -97,7 +97,7 @@ var exampleSchedule2 = {
 		"7": {"className":"CONC ORCH II REH CONCERT ORCHESTRA II","classCode":"5601-101","teacher":"Dr. Sven J. Carlson","semester":"S1","classroom":"ORCH"},
 		"8": {"className":"CONC ORCH II VLN/VLA CONCERT ORCHESTRA II","classCode":"5611-101","teacher":"Mr. Craig J. S. Young","semester":"S1","classroom":"ORCH"},
 		"9": {"className":"ENG 2 AB ENGLISH","classCode":"0081-119","teacher":"Dr David Michael Ball","semester":"S1","classroom":"S201"},
-		"10": {"className":"ENGINEERING PROJ I &amp; II ENGINEERING PROJ I &amp; II","classCode":"3671-101","teacher":"Justin Y. Lai","semester":"S1","classroom":"G-CLC"},
+		"10": {"className":"ENGINEERING PROJ I & II","classCode":"3671-101","teacher":"Justin Y. Lai","semester":"S1","classroom":"G-CLC"},
 		"11": {"className":"MND CHIN III H MAND CHINESE III (H)","classCode":"1761-101","teacher":"Linette L. Char","semester":"S1","classroom":"CH-3"}
 	}
 }
@@ -114,7 +114,7 @@ function addColors (scheduleData) {
 	return scheduleData;
 }
 
-function formatClassData(scheduleData) {
+function formatClassData (scheduleData) {
 	var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"], // Array for pushing the schedule data for each letter day
 	letterDayLength = letterDays.length,
 	classRanges = [[], [], [], [], [], []], // Array to store the ranges of the class' starting and ending time
@@ -130,14 +130,24 @@ function formatClassData(scheduleData) {
 		
 		// Loop through all the startingTimes to get ranges of class time and push class data to sortedSchedule
 		for (j = 0; j < startingTimes.length; j++) {
-			sortedSchedule[i].push({
-				startTime: startingTimes[j],
-				endTime: endingTimes[j],
-				classData: scheduleData.key[classKey[j]]
-			});
-			// Class mods are the ranges of the class times
-			var classMods = _.range(startingTimes[j], endingTimes[j] + 1, 1) // Getting range of the classes (using start and end times)
-			classRanges[i] = _.concat(classRanges[i], classMods);
+			if (startingTimes[j] == undefined) {
+				var conflictClass = scheduleData.schedule[letterDays[i]][j];
+				sortedSchedule[i].push({
+					startTime: conflictClass.conflictStart,
+					endTime: conflictClass.conflictEnd,
+					classData: [scheduleData.key[conflictClass.classKey[0]], scheduleData.key[conflictClass.classKey[1]]]
+					// classData: [scheduleData.key[conflictClass.classKey[0]], scheduleData.key[conflictClass.classKey[1]]]
+				});
+			} else {
+				sortedSchedule[i].push({
+					startTime: startingTimes[j],
+					endTime: endingTimes[j],
+					classData: scheduleData.key[classKey[j]]
+				});
+				// Class mods are the ranges of the class times
+				var classMods = _.range(startingTimes[j], endingTimes[j] + 1, 1) // Getting range of the classes (using start and end times)
+				classRanges[i] = _.concat(classRanges[i], classMods);
+			}
 		}
 
 		// Push array of break times
@@ -168,54 +178,56 @@ function formatClassData(scheduleData) {
 		// Sort the final schedule data by starting time
 		sortedSchedule[i] = _.sortBy(sortedSchedule[i], "startTime");
 	}	
+	console.log(sortedSchedule);
 	return sortedSchedule;
 }
 
-function addNewGridItem(options, grid) {
+function addNewGridItem (options, grid) {
 	var $grid = $(grid).data("gridstack");
   var gridItem = $("<div class='grid-stack-item' data-gs-locked style='text-align: center; font-size: 80%; background-color: " + options.color + "'> <div class='grid-stack-item-content'>" + options.name + "\n" + options.room + "</div></div>");
   $grid.addWidget(gridItem, options.column, options.row, 1, options.blockHeight);
 }
 
-function makeGrid(scheduleData, grid) {
-$(grid).gridstack({cellHeight: 30, width: 6, staticGrid: true, disableDrag: true, disableResize: true, verticalMargin: 0});
-for (i = 0; i < 6; i++) {
-  	var rowNum = 0
-  	for (j = 0; j < scheduleData[i].length; j++) {
+function makeGrid (scheduleData, grid) {
+	$(grid).gridstack({cellHeight: 30, width: 6, staticGrid: true, disableDrag: true, disableResize: true, verticalMargin: 0});
+	for (i = 0; i < 6; i++) {
+			var rowNum = 0;
+	  	for (j = 0; j < scheduleData[i].length; j++) {
+	  		var currentClass = scheduleData[i][j];
+	  		// Object for configuring the grid
+	  		var config = {
+	  			blockHeight: scheduleData[i][j].endTime - scheduleData[i][j].startTime + 1,
+	  			column: i,
+	  			data: [],
+	  			row: rowNum,
+	  			
+	   		}
+	  		rowNum += config.blockHeight;
 
-  		var currentClass = scheduleData[i][j];
-  		if (currentClass.startTime == undefined) {
-  			var letterDays = ["A-Day", "B-Day", "C-Day", "D-Day", "E-Day", "F-Day"];
-  			console.log(scheduleData[i][j]);
-  		}
-  		// Object for configuring the grid
-  		var config = {
-  			blockHeight: scheduleData[i][j].endTime - scheduleData[i][j].startTime + 1,
-  			column: i,
-  			data: [],
-  			row: rowNum,
-  			
-   		}
-  		rowNum += config.blockHeight;
-
-  		if (currentClass.classData == ".") {
-  			config.name = "Break";
-  			config.room = "";
-  			config.color =  "white";
-  		} else {
-  			config.name = scheduleData[i][j].classData.className;
-  			config.room = scheduleData[i][j].classData.classroom;
-  			config.color =  scheduleData[i][j].classData.color;
-  		}
-  		addNewGridItem(config, grid);
-  	}
-  }
+	  		if (currentClass.classData == ".") {
+	  			config.name = "Break";
+	  			config.room = "";
+	  			config.color =  "white";
+	  		} else {
+	  			if (currentClass.classData.length == 2) {
+	  				config.name = "Conflict with " + currentClass.classData[0].className + " and " + currentClass.classData[1].className;
+	  				config.room = "";
+	  				// config.room = currentClass.classData[0].classroom + " and " + currentClass.classData[1].className;
+	  				config.color = "red";
+	  			} else {
+	  				config.name = currentClass.classData.className;
+	  				config.room = currentClass.classData.classroom;
+	  				config.color = currentClass.classData.color;
+	  			}
+	  		}
+	  		addNewGridItem(config, grid);
+	  	}
+	}
 }
 
 $(document).ready(function() {
 	var schedData = formatClassData(addColors(exampleSchedule));
 	var schedData2 = formatClassData(addColors(exampleSchedule2));
   makeGrid(schedData, "#sched1");
-  // makeGrid(schedData2, "#sched2");
-  
+  makeGrid(schedData2, "#sched2");
 });
