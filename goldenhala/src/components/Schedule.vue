@@ -9,14 +9,20 @@
 
 <script>
 /* eslint-disable*/
-import "../scripts/schedule.js"
+import { ScheduleMaker } from "../scripts-modular/schedule.js"
+
 export default {
   name: "Schedule",
-  // ready: Script,
   data () {
     return {
       msg: "i am mr schedule"
     }
+  },
+  mounted: function () {
+    try {
+      console.log("bob")
+      ScheduleMaker.makeSchedule()
+    } catch (e) { return; }
   }
 }
 </script>
@@ -58,6 +64,6 @@ export default {
   .test {
     background-color: blue;
   }
-  
+
 
 </style>

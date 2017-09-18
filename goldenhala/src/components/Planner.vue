@@ -81,7 +81,6 @@ export default {
     },
     deleteTask (plannerIndex) {
       this.tasks.splice(plannerIndex, 1);
-      console.log(this.tasks);
     }
   },
   watch: {

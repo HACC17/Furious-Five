@@ -61,9 +61,6 @@ export default {
     deleteTask () {
       this.$emit("deleteTask", this.plannerIndex);
     }
-  },
-  beforeDestroy: function () {
-    Bus.$off();
   }
 }
 </script>
