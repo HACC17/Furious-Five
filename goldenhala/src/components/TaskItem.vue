@@ -26,6 +26,10 @@
             @blur="changed(); onEdit();",
             @keyup.enter="blur"
           )
+    .level-right
+      .level-item
+        span.is-small {{ task.class }}
+
 </template>
 
 <script>

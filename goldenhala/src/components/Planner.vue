@@ -111,7 +111,9 @@ export default {
     // Bus Event Listeners
     // From TaskEntry
     Bus.$on("addNewTask", (taskObj) => {
-      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: [], tags: [], notes: ""});
+      this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: [], tags: [], class: taskObj.selectedClass, notes: ""});
+      //this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: [], tags: [], class: "", notes: ""});
+      //this.tasks.push({name: taskObj.origEntry, id: this.nextIDIncrement, editing: false, labels: [], tags: [], notes: ""});
     });
 
     // From TaskEdit
