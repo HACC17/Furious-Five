@@ -106,7 +106,7 @@ var exampleSchedule2 = {
 var i, j;
 
 function addColors (scheduleData) {
-	var colors = ["red", "orange", "green", "blue", "yellow", "#6699ff", "magenta", "pink", "#00ff00", "#ff3399", "#0066ff", "#ffff00", "#cc66ff", "#0033cc"];
+	var colors = ["FF4E50", "FC913A", "F9D423", "EDE574", "E1F5C4", "FC9D9A", "F9CDAD", "C8C8A9", "83AF9B", "69D2E7", "A7DBD8", "E0E4CC", "F38630", "F3FFCC", "E9FCD9", "DEFAE6", "D4F7F2", "C9F4FF", "9CC4E4", "E9F2F9", "FFF5A6", "F9E17D", "FFC6E2", "E4A2F2", "BED7FF", "F7F4AC", "A8F072"];
 	var classLen = Object.keys(scheduleData.key).length;
 	for (var i = 0; i < classLen; i++) {
 		scheduleData.key[i].color = colors[i];
