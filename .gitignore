@@ -84,7 +84,7 @@ jspm_packages
 # From Vue Project
 .DS_Store
 node_modules/
-dist/
+# dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
