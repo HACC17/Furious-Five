@@ -17,3 +17,5 @@ A student planning resource with functionalities for organization; made by the _
 * Currently available for Punahou School students
 * If user is logged into Punahou MyBackpack, automatically opens schedule in background page and saves data [SENDS SOMEWHERE]
 * If user is _not_ logged in, redirects to MyBackpack login page, then opens schedule and retrieves data
+
+[Video](https://www.youtube.com/watch?v=exR-PIlaRnQ)
